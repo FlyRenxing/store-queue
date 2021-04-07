@@ -29,7 +29,7 @@ public class UserController {
         User user = userService.login(uname, password);
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-
+//刘思铭
         if (user != null) {
             User userinfo = user;
             userinfo.setPassword("***");
