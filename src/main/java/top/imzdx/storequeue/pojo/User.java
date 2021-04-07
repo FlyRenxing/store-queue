@@ -9,7 +9,8 @@ public class User {
   private String phone;
   private String email;
   private java.sql.Date birthday;
-  private java.sql.Timestamp regtime;
+  private String regtime;
+  private String logo;
 
 
   public long getUid() {
@@ -66,12 +67,19 @@ public class User {
   }
 
 
-  public java.sql.Timestamp getRegtime() {
+  public String getRegtime() {
     return regtime;
   }
 
-  public void setRegtime(java.sql.Timestamp regtime) {
+  public void setRegtime(String regtime) {
     this.regtime = regtime;
   }
 
+  public String getLogo() {
+    return logo;
+  }
+
+  public void setLogo(String logo) {
+    this.logo = logo;
+  }
 }
