@@ -41,9 +41,11 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public Result register(String uname, String password) {
-        // TODO: 2021/4/6 注册相关
-        return new ResultTools().success("注册成功", null);
+    public Result register(String uname,String password,String phone,String email,String birthday) {
+        int code=userService.register(uname,password,phone,email,birthday);
+        if (code==200){
+            return new ResultTools().success("注册成功", null);
+        }else return new ResultTools().fail(code,"注册失败",null);
     }
 
     @GetMapping("profile")
