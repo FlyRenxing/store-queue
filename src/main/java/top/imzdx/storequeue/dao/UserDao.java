@@ -1,9 +1,6 @@
 package top.imzdx.storequeue.dao;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import top.imzdx.storequeue.pojo.User;
 
 /**
@@ -20,5 +17,11 @@ public interface UserDao {
     int getEqulsUName(@Param("uname") String uname);
 
     @Insert("INSERT INTO user(`uname`, `password`, `phone`, `email`, `birthday`, `regtime`)VALUES (#{uname}, #{password}, #{phone}, #{email}, #{birthday}, NOW())")
-    int insertByUser(@Param("uname")String uname,@Param("password")String password,@Param("phone")String phone,@Param("email")String email,@Param("birthday")String birthday);
+    int insertToUser(@Param("uname")String uname,@Param("password")String password,@Param("phone")String phone,@Param("email")String email,@Param("birthday")String birthday);
+
+    @Select("select * from user where uname=#{uname}")
+    User getUsreByName(@Param("uname")String uname);
+
+    @Update("update user set password=#{password} where uname=#{uname}")
+    int changePasswordByUname(@Param("password")String password,@Param("uname")String uanme);
 }

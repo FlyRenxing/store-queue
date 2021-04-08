@@ -12,6 +12,19 @@ public class User {
   private String regtime;
   private String logo;
 
+  @Override
+  public String toString() {
+    return "User{" +
+            "uid=" + uid +
+            ", uname='" + uname + '\'' +
+            ", password='" + password + '\'' +
+            ", phone='" + phone + '\'' +
+            ", email='" + email + '\'' +
+            ", birthday=" + birthday +
+            ", regtime='" + regtime + '\'' +
+            ", logo='" + logo + '\'' +
+            '}';
+  }
 
   public long getUid() {
     return uid;

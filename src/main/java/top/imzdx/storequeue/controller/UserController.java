@@ -69,4 +69,20 @@ public class UserController {
         session.invalidate();
         return new ResultTools().success("退出成功", null);
     }
+
+    @PostMapping("forgetpassword")
+    public Result forgetPassword(String uname,String phone,String email,String newpassword){
+        int code=userService.changePassword(uname, newpassword,phone, email);
+        if (code==200){
+            return new ResultTools().success("修改密码成功",null);
+        }
+        if (code==201){
+            return  new ResultTools().fail(201,"用户名错误",null);
+        }else if (code==202){
+            return  new ResultTools().fail(202,"密码重复",null);
+        }else if (code==203) {
+            return new ResultTools().fail(203, "信息错误", null);
+        }else return new ResultTools().fail(204,"异常",null);
+
+    }
 }
