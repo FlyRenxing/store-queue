@@ -11,6 +11,7 @@ public class User {
   private java.sql.Date birthday;
   private String regtime;
   private String logo;
+  private int type;
 
   @Override
   public String toString() {
@@ -23,7 +24,16 @@ public class User {
             ", birthday=" + birthday +
             ", regtime='" + regtime + '\'' +
             ", logo='" + logo + '\'' +
+            ", type=" + type +
             '}';
+  }
+
+  public int getType() {
+    return type;
+  }
+
+  public void setType(int type) {
+    this.type = type;
   }
 
   public long getUid() {
