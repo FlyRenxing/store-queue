@@ -10,6 +10,7 @@ public class Goods {
   private long total;
   private long stock;
   private String state;
+  private String pic;
   private String details;
   private String remarks;
 
@@ -74,6 +75,15 @@ public class Goods {
 
   public void setState(String state) {
     this.state = state;
+  }
+
+
+  public String getPic() {
+    return pic;
+  }
+
+  public void setPic(String pic) {
+    this.pic = pic;
   }
 
 
