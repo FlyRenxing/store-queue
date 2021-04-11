@@ -34,7 +34,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         // 有 @LoginRequired 注解，需要认证
         if (methodAnnotation != null) {
             // 这写你拦截需要干的事儿，比如取缓存，SESSION，权限判断等
-            System.out.println("被拦截");
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             if (user != null) {
