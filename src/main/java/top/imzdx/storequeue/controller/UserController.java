@@ -1,7 +1,6 @@
 package top.imzdx.storequeue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -94,14 +93,16 @@ public class UserController {
     //修改用户信息
     @LoginRequired
     @PostMapping("modifyuserinfo")
-    public Result modifyUserInfo(HttpServletRequest request,String phone,String email,String birthday){
-        HttpSession session=request.getSession();//获取当前会话
-        long uid = ((User)session.getAttribute("user")).getUid();
-
-        if (userService.modifyUserInfo( phone, email, birthday,uid)==200){
-            return new ResultTools().success("修改信息成功",null);
-        }else{
-            return new ResultTools().fail(201,"修改信息失败",null);
+    public Result modifyUserInfo(HttpServletRequest request, String phone, String email, String birthday) {
+        HttpSession session = request.getSession();//获取当前会话
+        long uid = ((User) session.getAttribute("user")).getUid();
+        int code = userService.modifyUserInfo(phone, email, birthday, uid);
+        if (code == 200) {
+            return new ResultTools().success("修改信息成功", null);
+        } else if (code == 201) {
+            return new ResultTools().fail(code, "信息与原信息相同", null);
+        } else {
+            return new ResultTools().fail(code, "系统异常", null);
         }
     }
 
