@@ -15,7 +15,7 @@ import top.imzdx.storequeue.service.GoodsService;
  */
 @RestController
 @RequestMapping("/goods")
-public class Goods {
+public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 

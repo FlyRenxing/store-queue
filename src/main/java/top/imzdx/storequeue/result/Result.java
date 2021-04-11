@@ -18,6 +18,16 @@ public class Result {
         this.time = System.currentTimeMillis();
     }
 
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", meg='" + meg + '\'' +
+                ", data=" + data +
+                ", time=" + time +
+                '}';
+    }
+
     public int getCode() {
         return code;
     }
