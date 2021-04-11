@@ -1,9 +1,7 @@
 package top.imzdx.storequeue.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
-import sun.security.util.Password;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 
@@ -47,11 +45,13 @@ public class UserService {
     }
 
     public int modifyUserInfo(String phone,String email,String birthday,long uid){
-        if (userDao.changeUserInfoByUname(phone,email,birthday,uid)==1){
+        int n = userDao.changeUserInfoByUname(phone, email, birthday, uid);
+        if (n == 1) {
             return 200;//修改成功
-        }else {
-            return 201;//信息错误
+        } else if (n == 0) {
+            return 201;//信息与原信息相同
         }
+        return 202;//修改了很多信息...
     }
 
 
