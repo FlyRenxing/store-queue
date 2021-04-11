@@ -46,5 +46,13 @@ public class UserService {
         }
     }
 
+    public int modifyUserInfo(String phone,String email,String birthday,long uid){
+        if (userDao.changeUserInfoByUname(phone,email,birthday,uid)==1){
+            return 200;//修改成功
+        }else {
+            return 201;//信息错误
+        }
+    }
+
 
 }

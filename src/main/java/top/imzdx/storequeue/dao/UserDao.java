@@ -24,4 +24,8 @@ public interface UserDao {
 
     @Update("update user set password=#{password} where uname=#{uname}")
     int changePasswordByUname(@Param("password")String password,@Param("uname")String uanme);
+
+    @Update("update user set phone=#{phone},email=#{email},birthday=#{birthday} where uid=#{uid}")
+    int changeUserInfoByUname(@Param("phone")String phone,@Param("email")String email,@Param("birthday")String birthday,@Param("uid")long uid);
+
 }
