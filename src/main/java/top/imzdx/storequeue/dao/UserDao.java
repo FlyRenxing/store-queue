@@ -17,15 +17,20 @@ public interface UserDao {
     int getEqulsUName(@Param("uname") String uname);
 
     @Insert("INSERT INTO user(`uname`, `password`, `phone`, `email`, `birthday`, `regtime`)VALUES (#{uname}, #{password}, #{phone}, #{email}, #{birthday}, NOW())")
-    int insertToUser(@Param("uname")String uname,@Param("password")String password,@Param("phone")String phone,@Param("email")String email,@Param("birthday")String birthday);
+    int insertToUser(@Param("uname") String uname, @Param("password") String password, @Param("phone") String phone, @Param("email") String email, @Param("birthday") String birthday);
 
     @Select("select * from user where uname=#{uname}")
-    User getUsreByName(@Param("uname")String uname);
+    User getUsreByName(@Param("uname") String uname);
+
+    @Select("select * from user where uid=#{uid}")
+    User getUsreByUid(@Param("uid") long uid);
 
     @Update("update user set password=#{password} where uname=#{uname}")
-    int changePasswordByUname(@Param("password")String password,@Param("uname")String uanme);
+    int changePasswordByUname(@Param("password") String password, @Param("uname") String uanme);
 
     @Update("update user set phone=#{phone},email=#{email},birthday=#{birthday} where uid=#{uid}")
-    int changeUserInfoByUname(@Param("phone")String phone,@Param("email")String email,@Param("birthday")String birthday,@Param("uid")long uid);
+    int changeUserInfoByUid(@Param("phone") String phone, @Param("email") String email, @Param("birthday") String birthday, @Param("uid") long uid);
 
+    @Update("update user set password=#{newPassword} where uid=#{uid}")
+    int changePasswordByUid(@Param("uid") long uid, @Param("newPassword") String newPassword);
 }

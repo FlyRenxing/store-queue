@@ -84,6 +84,22 @@ public class UserController {
 
     }
 
+    @PostMapping("editpassword")
+    @LoginRequired
+    public Result editPassword(HttpServletRequest request, String oldPassword, String newPassword) {
+        if (oldPassword.equals(newPassword)) {
+            return new ResultTools().fail(202, "密码与原密码相同", null);
+        }
+        long uid = ((User) request.getSession().getAttribute("user")).getUid();
+        int code = userService.changePassword(uid, oldPassword, newPassword);
+        if (code == 200) {
+            return new ResultTools().success("修改密码成功", null);
+        } else if (code == 201) {
+            return new ResultTools().fail(201, "原密码错误", null);
+        } else return new ResultTools().fail(code, "系统异常", null);
+
+    }
+
     @GetMapping("test")
     public Result test() {
 
