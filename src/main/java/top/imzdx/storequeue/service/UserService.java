@@ -38,7 +38,7 @@ public class UserService {
                     return 200;//正确，可以修改
                 } else return 202;//密码重复
             } else {
-                System.out.println(user.toString());
+                //System.out.println(user.toString());
                 return  203;//电话、邮箱不正确
             }
         }

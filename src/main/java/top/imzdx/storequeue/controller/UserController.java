@@ -81,7 +81,6 @@ public class UserController {
         } else if (code == 203) {
             return new ResultTools().fail(203, "信息错误", null);
         } else return new ResultTools().fail(204, "异常", null);
-
     }
 
     @PostMapping("editpassword")
@@ -97,12 +96,10 @@ public class UserController {
         } else if (code == 201) {
             return new ResultTools().fail(201, "原密码错误", null);
         } else return new ResultTools().fail(code, "系统异常", null);
-
     }
 
     @GetMapping("test")
     public Result test() {
-
         return new ResultTools().success("测试成功", null);
     }
 

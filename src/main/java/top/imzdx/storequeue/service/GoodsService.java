@@ -22,9 +22,15 @@ public class GoodsService {
         return goodsDao.getCategory();
     }
 
-    public List<Goods> getGoods(String category){
+    public List<Goods> getGoods(String category) {
+        return goodsDao.getGoodsByCategory(category);
+    }
 
-            return goodsDao.getGoodsBycategoory(category);
+    public Goods getGoods(long id) {
+        return goodsDao.getGoodsById(id);
+    }
 
+    public List<Goods> getGoodsRandom(int n) {
+        return goodsDao.getGoodsRandom(n);
     }
 }
