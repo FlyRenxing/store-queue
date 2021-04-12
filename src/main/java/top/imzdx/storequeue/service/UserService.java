@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Renxing
  * @description
@@ -44,7 +46,7 @@ public class UserService {
         }
     }
 
-    public int modifyUserInfo(String phone,String email,String birthday,long uid){
+    public int modifyUserInfo(String phone, String email, String birthday, long uid){
         int n = userDao.changeUserInfoByUid(phone, email, birthday, uid);
         if (n == 1) {
             return 200;//修改成功
@@ -63,5 +65,9 @@ public class UserService {
         if (n == 1) {
             return 200;
         } else return 203;
+    }
+
+    public User findUserByUid(long uid){
+        return  userDao.getUsreByUid(uid);
     }
 }

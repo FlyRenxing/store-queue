@@ -57,7 +57,8 @@ public class UserController {
     @LoginRequired
     public Result look(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        long uid=((User)session.getAttribute("user")).getUid();
+        User user = userService.findUserByUid(uid);
         return new ResultTools().success("获取成功", user);
     }
 
@@ -111,7 +112,9 @@ public class UserController {
         long uid = ((User) session.getAttribute("user")).getUid();
         int code = userService.modifyUserInfo(phone, email, birthday, uid);
         if (code == 200) {
+            session.setAttribute("user",userService.findUserByUid(uid));
             return new ResultTools().success("修改信息成功", null);
+
         } else if (code == 201) {
             return new ResultTools().fail(code, "信息与原信息相同", null);
         } else {
