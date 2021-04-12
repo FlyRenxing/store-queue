@@ -2,6 +2,7 @@ package top.imzdx.storequeue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.imzdx.storequeue.pojo.goods.Goods;
@@ -27,14 +28,29 @@ public class GoodsController {
         return new ResultTools().success("获取成功", goodsService.getCategory());
     }
 
-
     @GetMapping("")//根据分类获取商品
-    public Result getGoods(String category){
-        System.out.println(category);
-        List<Goods> i=goodsService.getGoods(category);
-        return  new ResultTools().success("获取成功",i);
-        }
+    public Result getGoods(String category) {
+        //System.out.println(category);
+        List<Goods> i = goodsService.getGoods(category);
+        return new ResultTools().success("获取成功", i);
+    }
 
+    @GetMapping("random")//随机获取商品
+    public Result getGoodsRandom(int n) {
+        List<Goods> i = goodsService.getGoodsRandom(n);
+        return new ResultTools().success("获取成功", i);
+    }
+
+    @GetMapping("{id}")//根据id获取商品
+    public Result getGoods(@PathVariable long id) {
+        //System.out.println(category);
+        Goods i = goodsService.getGoods(id);
+        if (i != null) {
+            return new ResultTools().success("获取成功", i);
+        } else {
+            return new ResultTools().fail(201, "商品不存在", null);
+        }
+    }
 }
 
 

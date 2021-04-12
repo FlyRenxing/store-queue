@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Renxing
  * @description
@@ -38,13 +40,13 @@ public class UserService {
                     return 200;//正确，可以修改
                 } else return 202;//密码重复
             } else {
-                System.out.println(user.toString());
+                //System.out.println(user.toString());
                 return  203;//电话、邮箱不正确
             }
         }
     }
 
-    public int modifyUserInfo(String phone,String email,String birthday,long uid){
+    public int modifyUserInfo(String phone, String email, String birthday, long uid){
         int n = userDao.changeUserInfoByUid(phone, email, birthday, uid);
         if (n == 1) {
             return 200;//修改成功
@@ -63,5 +65,9 @@ public class UserService {
         if (n == 1) {
             return 200;
         } else return 203;
+    }
+
+    public User findUserByUid(long uid){
+        return  userDao.getUsreByUid(uid);
     }
 }

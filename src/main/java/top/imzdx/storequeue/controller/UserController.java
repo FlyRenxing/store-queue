@@ -57,7 +57,8 @@ public class UserController {
     @LoginRequired
     public Result look(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        long uid=((User)session.getAttribute("user")).getUid();
+        User user = userService.findUserByUid(uid);
         return new ResultTools().success("获取成功", user);
     }
 
@@ -81,7 +82,6 @@ public class UserController {
         } else if (code == 203) {
             return new ResultTools().fail(203, "信息错误", null);
         } else return new ResultTools().fail(204, "异常", null);
-
     }
 
     @PostMapping("editpassword")
@@ -97,12 +97,10 @@ public class UserController {
         } else if (code == 201) {
             return new ResultTools().fail(201, "原密码错误", null);
         } else return new ResultTools().fail(code, "系统异常", null);
-
     }
 
     @GetMapping("test")
     public Result test() {
-
         return new ResultTools().success("测试成功", null);
     }
 
@@ -114,7 +112,9 @@ public class UserController {
         long uid = ((User) session.getAttribute("user")).getUid();
         int code = userService.modifyUserInfo(phone, email, birthday, uid);
         if (code == 200) {
+            session.setAttribute("user",userService.findUserByUid(uid));
             return new ResultTools().success("修改信息成功", null);
+
         } else if (code == 201) {
             return new ResultTools().fail(code, "信息与原信息相同", null);
         } else {

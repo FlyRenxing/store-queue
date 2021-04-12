@@ -18,8 +18,12 @@ public interface GoodsDao {
     @Select("SELECT * FROM `category`")
     List<Category> getCategory();
 
-    @Select("select * from goods where category =#{category} or #{category} is null")
-    List<Goods> getGoodsBycategoory(@Param("category")String category);
+    @Select("select * from goods where category =#{category} or #{category} is null or 0=#{category}")
+    List<Goods> getGoodsByCategory(@Param("category") String category);
 
+    @Select("select  *  from  goods order by rand() limit #{n}")
+    List<Goods> getGoodsRandom(int n);
 
+    @Select("SELECT * FROM `goods` where gid=#{id}")
+    Goods getGoodsById(long id);
 }
