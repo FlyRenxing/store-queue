@@ -9,7 +9,7 @@ public class Goods {
   private long category;
   private long total;
   private long stock;
-  private String state;
+  private int state;
   private String pic;
   private String details;
   private String remarks;
@@ -69,11 +69,11 @@ public class Goods {
   }
 
 
-  public String getState() {
+  public int getState() {
     return state;
   }
 
-  public void setState(String state) {
+  public void setState(int state) {
     this.state = state;
   }
 
