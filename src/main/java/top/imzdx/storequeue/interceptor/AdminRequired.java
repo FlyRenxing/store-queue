@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @description
  * @date 2021/4/15 14:25
  */
-@Target({ElementType.TYPE})// 可用在类名上
+@Target({ElementType.METHOD})// 可用在类名上
 @Retention(RetentionPolicy.RUNTIME)// 运行时有效
 public @interface AdminRequired {
 

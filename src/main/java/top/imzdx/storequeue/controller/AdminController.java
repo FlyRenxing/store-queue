@@ -1,4 +1,4 @@
-package top.imzdx.storequeue.controller.admin;
+package top.imzdx.storequeue.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,10 @@ import top.imzdx.storequeue.result.ResultTools;
  * @date 2021/4/15 14:43
  */
 @RestController
-@RequestMapping("/admin/dashboard")
-@AdminRequired
-public class DashboardController {
-    @GetMapping("/")
+@RequestMapping("/admin")
+public class AdminController {
+    @GetMapping("dashboard")
+    @AdminRequired
     public Result getInfo() {
         return new ResultTools().success("获取成功", null);
     }

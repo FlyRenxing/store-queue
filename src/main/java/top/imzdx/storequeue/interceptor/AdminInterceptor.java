@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 
 /**
  * @author Renxing
@@ -26,11 +27,12 @@ public class AdminInterceptor implements HandlerInterceptor {
             return true;
         }
         // ①:START 类注解级拦截器
-        Class class1 = handler.getClass();
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        Method method = handlerMethod.getMethod();
         // 判断接口是否需要登录
-        //AdminRequired methodAnnotation = AdminRequired.class;
+        AdminRequired methodAnnotation = method.getAnnotation(AdminRequired.class);
         // 有 @LoginRequired 注解，需要认证
-        if (class1 != null) {
+        if (methodAnnotation != null) {
             // 这写你拦截需要干的事儿，比如取缓存，SESSION，权限判断等
             //System.out.println("!null");
             HttpSession session = request.getSession();
