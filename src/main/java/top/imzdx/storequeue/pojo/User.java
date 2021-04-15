@@ -8,7 +8,7 @@ public class User {
   private String password;
   private String phone;
   private String email;
-  private java.sql.Date birthday;
+  private String birthday;
   private String regtime;
   private String logo;
   private int type;
@@ -81,11 +81,11 @@ public class User {
   }
 
 
-  public java.sql.Date getBirthday() {
+  public String getBirthday() {
     return birthday;
   }
 
-  public void setBirthday(java.sql.Date birthday) {
+  public void setBirthday(String birthday) {
     this.birthday = birthday;
   }
 

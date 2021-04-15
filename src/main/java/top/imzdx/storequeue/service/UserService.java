@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author Renxing
  * @description
@@ -21,15 +19,21 @@ public class UserService {
         return userDao.getUserByNameAndPassword(uname, password);
     }
 
-    public int register(String uname,String password,String phone,String email,String birthday){
-        //System.out.println(uname);
-        if (userDao.getEqulsUName(uname)!=0) {
-            return 201;//用户名重复
-        }else if (userDao.insertToUser(uname,password,phone,email, birthday)==1){
-            return 200;
-        }else return 202;//异常
+
+    public int EqualsUName(String uname) {
+        return userDao.getEqulsUName(uname);
     }
 
+    public int register(String uname, String password, String phone, String email, String birthday) {
+        User user = new User();
+        user.setUname(uname);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setBirthday(birthday);
+
+        return userDao.insertToUser(user);
+    }
     public int changePassword(String uname, String newPassword, String phone, String email) {//忘记密码
         User user = userDao.getUsreByName(uname);
         if (user == null) {

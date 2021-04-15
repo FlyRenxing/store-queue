@@ -43,14 +43,11 @@ public class UserController {
 
     @PostMapping("register")
     public Result register(String uname, String password, String phone, String email, String birthday) {
-        int code = userService.register(uname, password, phone, email, birthday);
-        if (code == 200) {
+        if (userService.EqualsUName(uname) != 0) {
+            return new ResultTools().fail(201, "用户名重复", null);//用户名重复
+        } else if (userService.register(uname, password, phone, email, birthday) == 1) {
             return new ResultTools().success("注册成功", null);
-        } else if (code == 201) {
-            return new ResultTools().fail(code, "用户名重复", null);
-        } else {
-            return new ResultTools().fail(code, "未知异常", null);
-        }
+        } else return new ResultTools().fail(203, "系统异常", null);//异常
     }
 
     @GetMapping("profile")
