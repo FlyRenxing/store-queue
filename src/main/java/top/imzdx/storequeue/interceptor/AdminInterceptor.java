@@ -12,34 +12,49 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 
 /**
  * @author Renxing
  * @description
  * @date 2021/4/11 13:44
  */
-public class AuthorityInterceptor implements HandlerInterceptor {
+public class AdminInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        // ①:START 方法注解级拦截器
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        Method method = handlerMethod.getMethod();
+        // ①:START 类注解级拦截器
+        Class class1 = handler.getClass();
         // 判断接口是否需要登录
-        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
+        //AdminRequired methodAnnotation = AdminRequired.class;
         // 有 @LoginRequired 注解，需要认证
-        if (methodAnnotation != null) {
+        if (class1 != null) {
             // 这写你拦截需要干的事儿，比如取缓存，SESSION，权限判断等
+            //System.out.println("!null");
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-            if (user != null) {
+            if (user == null) {
+                Result result = new ResultTools().fail(299, "当前未登录", null);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json; charset=utf-8");
+                PrintWriter out = null;
+                try {
+                    String json = new JSONObject().toJSONString(result);
+                    out = response.getWriter();
+                    out.append(json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.sendError(500);
+                }
+                return false;
+            }
+            int userType = user.getType();
+            if (userType == 1) {
                 return true;
             } else {
-                Result result = new ResultTools().fail(299, "当前未登录", null);
+                Result result = new ResultTools().fail(298, "您不是管理员请勿访问此接口", null);
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter out = null;
@@ -56,6 +71,7 @@ public class AuthorityInterceptor implements HandlerInterceptor {
             }
 
         }
+
         return true;
 
 
