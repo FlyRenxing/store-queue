@@ -50,7 +50,7 @@ public class GoodsController {
         }
     }
 
-    @PostMapping("addgoods")
+    @PostMapping("add")
     @AdminRequired
     public Result addgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
         if (goodsService.addgoods(gname,price,category,total,stock,state,pic,details ,remarks)==1){
