@@ -40,4 +40,18 @@ public class GoodsService {
     public List<Goods> getGoodsRandom(int n) {
         return goodsHandle.removeGoodsByState(goodsDao.getGoodsRandom(n));
     }
+
+    public int addgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
+        Goods goods=new Goods();
+        goods.setGname(gname);
+        goods.setPrice(price);
+        goods.setCategory(category);
+        goods.setTotal(total);
+        goods.setStock(stock);
+        goods.setState(state);
+        goods.setPic(pic);
+        goods.setDetails(details);
+        goods.setRemarks(remarks);
+        return goodsDao.addgoods(goods);
+    }
 }
