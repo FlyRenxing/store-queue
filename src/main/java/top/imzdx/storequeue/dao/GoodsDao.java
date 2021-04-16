@@ -1,9 +1,6 @@
 package top.imzdx.storequeue.dao;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
@@ -31,4 +28,8 @@ public interface GoodsDao {
 
     @Insert("insert into goods(gname,price,category,total,stock,state,pic,details,remarks)  values(#{goods.gname},#{goods.price},#{goods.category},#{goods.total},#{goods.stock},#{goods.state},#{goods.pic},#{goods.details},#{goods.remarks})")
     int addgoods(@Param("goods")Goods goods);
+
+    @Delete("delete from goods where gid=#{gid}")
+    int deletegoods(@Param("gid")int gid);
+
 }

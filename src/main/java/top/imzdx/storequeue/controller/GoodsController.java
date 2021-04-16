@@ -53,12 +53,24 @@ public class GoodsController {
     @PostMapping("add")
     @AdminRequired
     public Result addgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
-        if (goodsService.addgoods(gname,price,category,total,stock,state,pic,details ,remarks)==1){
+        if (goodsService.addgoods(gname,price,category,total,stock,state,pic,details,remarks)==1){
             return new ResultTools().success("添加成功",null);
         }else {
             return new ResultTools().fail(201,"添加失败",null);
         }
     }
+
+    @PostMapping("delete")
+    @AdminRequired
+    public Result delete(int gid){
+        if (goodsService.deletegoods(gid)==1){
+            return new ResultTools().success("删除成功",null);
+        }else{
+            return new ResultTools().fail(201,"删除失败",null);
+        }
+    }
+
+
 }
 
 

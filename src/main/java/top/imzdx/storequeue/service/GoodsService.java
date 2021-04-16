@@ -54,4 +54,8 @@ public class GoodsService {
         goods.setRemarks(remarks);
         return goodsDao.addgoods(goods);
     }
+
+    public int deletegoods(int gid){
+        return goodsDao.deletegoods(gid);
+    }
 }
