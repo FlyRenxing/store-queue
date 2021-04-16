@@ -1,10 +1,8 @@
 package top.imzdx.storequeue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.imzdx.storequeue.interceptor.AdminRequired;
 import top.imzdx.storequeue.pojo.goods.Goods;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
@@ -49,6 +47,16 @@ public class GoodsController {
             return new ResultTools().success("获取成功", i);
         } else {
             return new ResultTools().fail(201, "商品不存在", null);
+        }
+    }
+
+    @PostMapping("addgoods")
+    @AdminRequired
+    public Result addgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
+        if (goodsService.addgoods(gname,price,category,total,stock,state,pic,details ,remarks)==1){
+            return new ResultTools().success("添加成功",null);
+        }else {
+            return new ResultTools().fail(201,"添加失败",null);
         }
     }
 }
