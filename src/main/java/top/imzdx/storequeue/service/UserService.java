@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 
+import java.util.List;
+
 /**
  * @author Renxing
  * @description
@@ -34,6 +36,7 @@ public class UserService {
 
         return userDao.insertToUser(user);
     }
+
     public int changePassword(String uname, String newPassword, String phone, String email) {//忘记密码
         User user = userDao.getUsreByName(uname);
         if (user == null) {
@@ -45,12 +48,12 @@ public class UserService {
                 } else return 202;//密码重复
             } else {
                 //System.out.println(user.toString());
-                return  203;//电话、邮箱不正确
+                return 203;//电话、邮箱不正确
             }
         }
     }
 
-    public int modifyUserInfo(String phone, String email, String birthday, long uid){
+    public int modifyUserInfo(String phone, String email, String birthday, long uid) {
         int n = userDao.changeUserInfoByUid(phone, email, birthday, uid);
         if (n == 1) {
             return 200;//修改成功
@@ -71,7 +74,25 @@ public class UserService {
         } else return 203;
     }
 
-    public User findUserByUid(long uid){
-        return  userDao.getUsreByUid(uid);
+    public User findUserByUid(long uid) {
+        return userDao.getUsreByUid(uid);
+    }
+
+    public List<User> getAllUser() {
+        return userDao.getAllUser();
+    }
+
+    public int UpdateUser(long uid, String uname, String password, String phone, String email, String birthday, int type, String logo) {
+        User user = new User();
+        user.setType(type);
+        user.setUid(uid);
+        user.setUname(uname);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setBirthday(birthday);
+        user.setLogo(logo);
+        //System.out.println(user);
+        return userDao.updateUser(user);
     }
 }

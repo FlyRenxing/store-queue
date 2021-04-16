@@ -3,6 +3,8 @@ package top.imzdx.storequeue.dao;
 import org.apache.ibatis.annotations.*;
 import top.imzdx.storequeue.pojo.User;
 
+import java.util.List;
+
 /**
  * @author Renxing
  * @description
@@ -33,4 +35,10 @@ public interface UserDao {
 
     @Update("update user set password=#{newPassword} where uid=#{uid}")
     int changePasswordByUid(@Param("uid") long uid, @Param("newPassword") String newPassword);
+
+    @Select("select * from user")
+    List<User> getAllUser();
+
+    @Update("update user set uname=#{user.uname},password=#{user.password},phone=#{user.phone},email=#{user.email},birthday=#{user.birthday},type=#{user.type},logo=#{user.logo} where uid=#{user.uid}")
+    int updateUser(@Param("user") User user);
 }

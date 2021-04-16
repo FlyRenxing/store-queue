@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.imzdx.storequeue.interceptor.AdminRequired;
 import top.imzdx.storequeue.interceptor.LoginRequired;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.result.Result;
@@ -54,7 +55,7 @@ public class UserController {
     @LoginRequired
     public Result look(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        long uid=((User)session.getAttribute("user")).getUid();
+        long uid = ((User) session.getAttribute("user")).getUid();
         User user = userService.findUserByUid(uid);
         return new ResultTools().success("获取成功", user);
     }
@@ -109,7 +110,7 @@ public class UserController {
         long uid = ((User) session.getAttribute("user")).getUid();
         int code = userService.modifyUserInfo(phone, email, birthday, uid);
         if (code == 200) {
-            session.setAttribute("user",userService.findUserByUid(uid));
+            session.setAttribute("user", userService.findUserByUid(uid));
             return new ResultTools().success("修改信息成功", null);
 
         } else if (code == 201) {
@@ -119,5 +120,28 @@ public class UserController {
         }
     }
 
+    @GetMapping("all")
+    @AdminRequired
+    public Result getAllUser() {
+        return new ResultTools().success("获取成功", userService.getAllUser());
+    }
 
+    @PostMapping("edit")
+    @AdminRequired
+    public Result editUser(String uid, String uname, String password, String phone, String email, String birthday, String type, String logo) {
+        if (!(uid != null && uname != null && password != null && phone != null && email != null && birthday != null && type != null && logo != null)) {
+            return new ResultTools().fail(201, "参数不完整", null);
+        }
+        try {
+            if (userService.UpdateUser(Integer.parseInt(uid), uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
+                return new ResultTools().success("修改成功", null);
+            } else {
+                return new ResultTools().fail(203, "查无此人", null);
+
+            }
+        } catch (NumberFormatException e) {
+            return new ResultTools().fail(202, "参数格式不正确", null);
+        }
+
+    }
 }
