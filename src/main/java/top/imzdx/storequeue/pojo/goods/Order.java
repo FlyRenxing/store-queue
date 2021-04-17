@@ -1,4 +1,4 @@
-package top.imzdx.storequeue.pojo;
+package top.imzdx.storequeue.pojo.goods;
 
 
 public class Order {
