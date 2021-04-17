@@ -1,7 +1,6 @@
 package top.imzdx.storequeue.dao;
 
 import org.apache.ibatis.annotations.*;
-import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
 
@@ -27,11 +26,11 @@ public interface GoodsDao {
     Goods getGoodsById(long id);
 
     @Insert("insert into goods(gname,price,category,total,stock,state,pic,details,remarks)  values(#{goods.gname},#{goods.price},#{goods.category},#{goods.total},#{goods.stock},#{goods.state},#{goods.pic},#{goods.details},#{goods.remarks})")
-    int insertgoods(@Param("goods")Goods goods);
+    int insertGoods(@Param("goods") Goods goods);
 
     @Delete("delete from goods where gid=#{gid}")
-    int deletegoods(@Param("gid")int gid);
+    int deleteGoods(@Param("gid") long gid);
 
     @Update("update goods set gname=#{goods.gname},price=#{goods.price},category=#{goods.category},total=#{goods.total},stock=#{goods.stock},state=#{goods.state},pic=#{goods.pic},details=#{goods.details},remarks=#{goods.remarks} where gid=#{goods.gid}")
-    int updategoods(@Param("goods")Goods goods);
+    int updateGoods(@Param("goods") Goods goods);
 }

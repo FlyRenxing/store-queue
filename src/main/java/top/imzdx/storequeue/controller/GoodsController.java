@@ -66,10 +66,10 @@ public class GoodsController {
         }
     }
 
-    @PostMapping("delete")
+    @GetMapping("delete")
     @AdminRequired
-    public Result deleteGoods(int gid) {
-        if (goodsService.deleteGoods(gid) == 1) {
+    public Result deleteGoods(String gid) {
+        if (goodsService.deleteGoods(Long.parseLong(gid)) == 1) {
             return new ResultTools().success("删除成功", null);
         } else {
             return new ResultTools().fail(201, "删除失败", null);

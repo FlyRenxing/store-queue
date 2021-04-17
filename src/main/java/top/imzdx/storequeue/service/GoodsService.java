@@ -56,11 +56,11 @@ public class GoodsService {
         goods.setPic(pic);
         goods.setDetails(details);
         goods.setRemarks(remarks);
-        return goodsDao.insertgoods(goods);
+        return goodsDao.insertGoods(goods);
     }
 
-    public int deleteGoods(int gid) {
-        return goodsDao.deletegoods(gid);
+    public int deleteGoods(long gid) {
+        return goodsDao.deleteGoods(gid);
     }
 
     public int editGoods(int gid, String gname, double price, int category, int total, int stock, int state, String pic, String details, String remarks) {
@@ -75,6 +75,6 @@ public class GoodsService {
         goods.setPic(pic);
         goods.setDetails(details);
         goods.setRemarks(remarks);
-        return goodsDao.updategoods(goods);
+        return goodsDao.updateGoods(goods);
     }
 }
