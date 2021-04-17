@@ -20,16 +20,6 @@ public class GoodsService {
     private GoodsDao goodsDao;
     @Autowired
     private GoodsHandle goodsHandle;
-    private int gid;
-    private String gname;
-    private String price;
-    private String category;
-    private String total;
-    private String stock;
-    private String state;
-    private String pic;
-    private String details;
-    private String remarks;
 
     public List<Category> getCategory() {
         return goodsDao.getCategory();
