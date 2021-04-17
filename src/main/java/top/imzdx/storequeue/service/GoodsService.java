@@ -20,6 +20,16 @@ public class GoodsService {
     private GoodsDao goodsDao;
     @Autowired
     private GoodsHandle goodsHandle;
+    private int gid;
+    private String gname;
+    private String price;
+    private String category;
+    private String total;
+    private String stock;
+    private String state;
+    private String pic;
+    private String details;
+    private String remarks;
 
     public List<Category> getCategory() {
         return goodsDao.getCategory();
@@ -41,7 +51,7 @@ public class GoodsService {
         return goodsHandle.removeGoodsByState(goodsDao.getGoodsRandom(n));
     }
 
-    public int addgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
+    public int newgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
         Goods goods=new Goods();
         goods.setGname(gname);
         goods.setPrice(price);
@@ -52,10 +62,25 @@ public class GoodsService {
         goods.setPic(pic);
         goods.setDetails(details);
         goods.setRemarks(remarks);
-        return goodsDao.addgoods(goods);
+        return goodsDao.insertgoods(goods);
     }
 
     public int deletegoods(int gid){
         return goodsDao.deletegoods(gid);
+    }
+
+    public int editgoods(int gid,String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
+        Goods goods=new Goods();
+        goods.setGid(gid);
+        goods.setGname(gname);
+        goods.setPrice(price);
+        goods.setCategory(category);
+        goods.setTotal(total);
+        goods.setStock(stock);
+        goods.setState(state);
+        goods.setPic(pic);
+        goods.setDetails(details);
+        goods.setRemarks(remarks);
+        return goodsDao.updategoods(goods);
     }
 }
