@@ -18,7 +18,7 @@ public interface UserDao {
     @Select("select count(uname) from user where uname=#{uname} ")
     int getEqulsUName(@Param("uname") String uname);
 
-    @Insert("INSERT INTO user(`uname`, `password`, `phone`, `email`, `birthday`, `regtime`)VALUES (#{user.uname}, #{user.password}, #{user.phone}, #{user.email}, #{user.birthday}, NOW())")
+    @Insert("INSERT INTO user(`uname`, `password`, `phone`, `email`, `birthday`, `regtime`, `type`,`logo`)VALUES (#{user.uname}, #{user.password}, #{user.phone}, #{user.email}, #{user.birthday}, NOW(),#{user.type},#{user.logo})")
     int insertToUser(@Param("user") User user);
 
     @Select("select * from user where uname=#{uname}")
@@ -41,4 +41,7 @@ public interface UserDao {
 
     @Update("update user set uname=#{user.uname},password=#{user.password},phone=#{user.phone},email=#{user.email},birthday=#{user.birthday},type=#{user.type},logo=#{user.logo} where uid=#{user.uid}")
     int updateUser(@Param("user") User user);
+
+    @Delete("delete from user where uid=#{uid}")
+    int deleteUser(@Param("uid") long uid);
 }

@@ -33,9 +33,8 @@ public class UserController {
         session.setAttribute("user", user);
 //刘思铭
         if (user != null) {
-            User userinfo = user;
-            userinfo.setPassword("***");
-            return new ResultTools().success("登陆成功", userinfo);
+            user.setPassword("***");
+            return new ResultTools().success("登陆成功", user);
         } else {
             return new ResultTools().fail(201, "账号或密码错误", null);
         }
@@ -137,11 +136,45 @@ public class UserController {
                 return new ResultTools().success("修改成功", null);
             } else {
                 return new ResultTools().fail(203, "查无此人", null);
-
             }
         } catch (NumberFormatException e) {
             return new ResultTools().fail(202, "参数格式不正确", null);
         }
 
+    }
+
+    @PostMapping("new")
+    @AdminRequired
+    public Result newUser(String uname, String password, String phone, String email, String birthday, String type, String logo) {
+        if (!(uname != null && password != null && phone != null && email != null && birthday != null && type != null && logo != null)) {
+            return new ResultTools().fail(201, "参数不完整", null);
+        }
+
+        if (userService.EqualsUName(uname) != 0) {
+            return new ResultTools().fail(204, "用户名已存在", null);
+        }
+        try {
+            if (userService.newUser(uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
+                return new ResultTools().success("新建成功", null);
+            } else {
+                return new ResultTools().fail(203, "新建失败", null);
+            }
+        } catch (NumberFormatException e) {
+            return new ResultTools().fail(202, "参数格式不正确", null);
+        }
+    }
+
+    @GetMapping("delete")
+    @AdminRequired
+    public Result deleteUser(String uid) {
+        try {
+            if (userService.deleteUser(Long.parseLong(uid)) == 1) {
+                return new ResultTools().success("删除成功", null);
+            } else {
+                return new ResultTools().fail(201, "删除失败", null);
+            }
+        } catch (Exception e) {
+            return new ResultTools().fail(202, "参数格式有误", null);
+        }
     }
 }

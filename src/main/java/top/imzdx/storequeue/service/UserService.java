@@ -21,7 +21,6 @@ public class UserService {
         return userDao.getUserByNameAndPassword(uname, password);
     }
 
-
     public int EqualsUName(String uname) {
         return userDao.getEqulsUName(uname);
     }
@@ -33,6 +32,19 @@ public class UserService {
         user.setPhone(phone);
         user.setEmail(email);
         user.setBirthday(birthday);
+
+        return userDao.insertToUser(user);
+    }
+
+    public int newUser(String uname, String password, String phone, String email, String birthday, int type, String logo) {
+        User user = new User();
+        user.setUname(uname);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setBirthday(birthday);
+        user.setType(type);
+        user.setLogo(logo);
 
         return userDao.insertToUser(user);
     }
@@ -62,7 +74,6 @@ public class UserService {
         }
         return 202;//修改了很多信息...
     }
-
 
     public int changePassword(long uid, String oldPassword, String newPassword) {
         if (!userDao.getUsreByUid(uid).getPassword().equals(oldPassword)) {
@@ -94,5 +105,9 @@ public class UserService {
         user.setLogo(logo);
         //System.out.println(user);
         return userDao.updateUser(user);
+    }
+
+    public int deleteUser(long uid) {
+        return userDao.deleteUser(uid);
     }
 }
