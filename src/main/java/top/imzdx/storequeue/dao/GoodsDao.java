@@ -27,9 +27,11 @@ public interface GoodsDao {
     Goods getGoodsById(long id);
 
     @Insert("insert into goods(gname,price,category,total,stock,state,pic,details,remarks)  values(#{goods.gname},#{goods.price},#{goods.category},#{goods.total},#{goods.stock},#{goods.state},#{goods.pic},#{goods.details},#{goods.remarks})")
-    int addgoods(@Param("goods")Goods goods);
+    int insertgoods(@Param("goods")Goods goods);
 
     @Delete("delete from goods where gid=#{gid}")
     int deletegoods(@Param("gid")int gid);
 
+    @Update("update goods set gname=#{goods.gname},price=#{goods.price},category=#{goods.category},total=#{goods.total},stock=#{goods.stock},state=#{goods.state},pic=#{goods.pic},details=#{goods.details},remarks=#{goods.remarks} where gid=#{goods.gid}")
+    int updategoods(@Param("goods")Goods goods);
 }
