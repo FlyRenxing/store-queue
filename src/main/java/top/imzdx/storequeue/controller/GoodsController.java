@@ -52,37 +52,37 @@ public class GoodsController {
 
     @PostMapping("new")
     @AdminRequired
-    public Result newgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
-        if (goodsService.newgoods(gname,price,category,total,stock,state,pic,details,remarks)==1){
-            return new ResultTools().success("添加成功",null);
-        }else {
-            return new ResultTools().fail(201,"添加失败",null);
+    public Result newGoods(String gname, double price, int category, int total, int stock, int state, String pic, String details, String remarks) {
+        if (goodsService.newGoods(gname, price, category, total, stock, state, pic, details, remarks) == 1) {
+            return new ResultTools().success("添加成功", null);
+        } else {
+            return new ResultTools().fail(201, "添加失败", null);
         }
     }
 
     @PostMapping("delete")
     @AdminRequired
-    public Result delete(int gid){
-        if (goodsService.deletegoods(gid)==1){
-            return new ResultTools().success("删除成功",null);
-        }else{
-            return new ResultTools().fail(201,"删除失败",null);
+    public Result deleteGoods(int gid) {
+        if (goodsService.deleteGoods(gid) == 1) {
+            return new ResultTools().success("删除成功", null);
+        } else {
+            return new ResultTools().fail(201, "删除失败", null);
         }
     }
 
     @PostMapping("edit")
     @AdminRequired
-    public Result edit(String gid,String gname,String price,String category,String total,String stock,String state,String pic,String details,String remarks){
-        if (gid==null || gname==null ||price==null || category ==null || total==null || stock==null || state==null ||pic ==null){
-            return  new ResultTools().fail(201,"参数不完整",null);
+    public Result editGoods(String gid, String gname, String price, String category, String total, String stock, String state, String pic, String details, String remarks) {
+        if (gid == null || gname == null || price == null || category == null || total == null || stock == null || state == null || pic == null) {
+            return new ResultTools().fail(201, "参数不完整", null);
         }
         try {
-            if (goodsService.editgoods(Integer.parseInt(gid),gname,Double.parseDouble(price),Integer.parseInt(category),Integer.parseInt(total),Integer.parseInt(stock),Integer.parseInt(state),pic,details,remarks)==1){
-                return  new ResultTools().success("修改成功",null);
-            }else {
-                return  new ResultTools().fail(202,"与原信息一样 无需修改",null);
+            if (goodsService.editGoods(Integer.parseInt(gid), gname, Double.parseDouble(price), Integer.parseInt(category), Integer.parseInt(total), Integer.parseInt(stock), Integer.parseInt(state), pic, details, remarks) == 1) {
+                return new ResultTools().success("修改成功", null);
+            } else {
+                return new ResultTools().fail(202, "与原信息一样 无需修改", null);
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return  new ResultTools().fail(203,"参数格式错误",null);
         }
     }

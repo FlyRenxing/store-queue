@@ -41,8 +41,8 @@ public class GoodsService {
         return goodsHandle.removeGoodsByState(goodsDao.getGoodsRandom(n));
     }
 
-    public int newgoods(String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
-        Goods goods=new Goods();
+    public int newGoods(String gname, double price, int category, int total, int stock, int state, String pic, String details, String remarks) {
+        Goods goods = new Goods();
         goods.setGname(gname);
         goods.setPrice(price);
         goods.setCategory(category);
@@ -55,12 +55,12 @@ public class GoodsService {
         return goodsDao.insertgoods(goods);
     }
 
-    public int deletegoods(int gid){
+    public int deleteGoods(int gid) {
         return goodsDao.deletegoods(gid);
     }
 
-    public int editgoods(int gid,String gname,double price,int category,int total,int stock,int state,String pic,String details,String remarks){
-        Goods goods=new Goods();
+    public int editGoods(int gid, String gname, double price, int category, int total, int stock, int state, String pic, String details, String remarks) {
+        Goods goods = new Goods();
         goods.setGid(gid);
         goods.setGname(gname);
         goods.setPrice(price);
