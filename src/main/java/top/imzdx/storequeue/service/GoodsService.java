@@ -29,6 +29,10 @@ public class GoodsService {
         return goodsHandle.removeGoodsByState(goodsDao.getGoodsByCategory(category));
     }
 
+    public List<Goods> getAllGoods(String category) {
+        return goodsDao.getGoodsByCategory(category);
+    }
+
     public Goods getGoods(long id) {
         Goods good = goodsDao.getGoodsById(id);
         if (good.getState() == 1) {

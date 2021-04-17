@@ -28,8 +28,14 @@ public class GoodsController {
 
     @GetMapping("")//根据分类获取商品
     public Result getGoods(String category) {
-        //System.out.println(category);
         List<Goods> i = goodsService.getGoods(category);
+        return new ResultTools().success("获取成功", i);
+    }
+
+    @GetMapping("all")//根据分类获取商品
+    @AdminRequired
+    public Result getAllGoods(String category) {
+        List<Goods> i = goodsService.getAllGoods(category);
         return new ResultTools().success("获取成功", i);
     }
 
