@@ -5,8 +5,8 @@ public class Seckill {
 
   private long sid;
   private long gid;
-  private java.sql.Timestamp starttime;
-  private java.sql.Timestamp endtime;
+  private String starttime;
+  private String endtime;
   private String data;
 
 
@@ -28,20 +28,20 @@ public class Seckill {
   }
 
 
-  public java.sql.Timestamp getStarttime() {
+  public String getStarttime() {
     return starttime;
   }
 
-  public void setStarttime(java.sql.Timestamp starttime) {
+  public void setStarttime(String starttime) {
     this.starttime = starttime;
   }
 
 
-  public java.sql.Timestamp getEndtime() {
+  public String getEndtime() {
     return endtime;
   }
 
-  public void setEndtime(java.sql.Timestamp endtime) {
+  public void setEndtime(String endtime) {
     this.endtime = endtime;
   }
 
