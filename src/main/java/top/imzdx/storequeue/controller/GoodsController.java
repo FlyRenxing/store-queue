@@ -2,7 +2,9 @@ package top.imzdx.storequeue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.interceptor.AdminRequired;
+import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.goods.Goods;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
@@ -20,6 +22,8 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private SeckillDao seckillDao;
 
     @GetMapping("category")
     public Result getCategory() {
@@ -47,12 +51,22 @@ public class GoodsController {
 
     @GetMapping("{id}")//根据id获取商品
     public Result getGoods(@PathVariable long id) {
-        //System.out.println(category);
         Goods i = goodsService.getGoods(id);
         if (i != null) {
+
             return new ResultTools().success("获取成功", i);
         } else {
             return new ResultTools().fail(201, "商品不存在", null);
+        }
+    }
+
+    @GetMapping("{gid}/seckill")//根据商品id获得该商品的秒杀活动
+    public Result getSeckillByGid(@PathVariable String gid){
+        List<Seckill> i=goodsService.getSeckillByGid(Integer.parseInt(gid));
+        if (i!=null){
+            return new ResultTools().success("获取成功",i);
+        }else{
+            return new ResultTools().fail(201,"获取失败",i);
         }
     }
 

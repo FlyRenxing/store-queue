@@ -5,7 +5,9 @@ public class Seckill {
 
   private long sid;
   private long gid;
+  private String startdate;
   private String starttime;
+  private String enddate;
   private String endtime;
   private String data;
 
@@ -28,12 +30,30 @@ public class Seckill {
   }
 
 
+  public String getStartdate() {
+    return startdate;
+  }
+
+  public void setStartdate(String startdate) {
+    this.startdate = startdate;
+  }
+
+
   public String getStarttime() {
     return starttime;
   }
 
   public void setStarttime(String starttime) {
     this.starttime = starttime;
+  }
+
+
+  public String getEnddate() {
+    return enddate;
+  }
+
+  public void setEnddate(String enddate) {
+    this.enddate = enddate;
   }
 
 
