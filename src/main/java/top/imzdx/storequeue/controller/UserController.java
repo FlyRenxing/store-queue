@@ -96,7 +96,7 @@ public class UserController {
         } else return new ResultTools().fail(code, "系统异常", null);
     }
 
-    @GetMapping("test")
+    @GetMapping("test2")
     public Result test() {
         return new ResultTools().success("测试成功", null);
     }
