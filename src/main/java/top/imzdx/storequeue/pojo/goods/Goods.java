@@ -8,7 +8,7 @@ public class Goods {
   private double price;
   private long category;
   private long total;
-  private long stock;
+  private int stock;
   private int state;
   private String pic;
   private String details;
@@ -60,11 +60,11 @@ public class Goods {
   }
 
 
-  public long getStock() {
+  public int getStock() {
     return stock;
   }
 
-  public void setStock(long stock) {
+  public void setStock(int stock) {
     this.stock = stock;
   }
 

@@ -1,6 +1,7 @@
 package top.imzdx.storequeue.dao;
 
 import org.apache.ibatis.annotations.*;
+import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
 
@@ -33,6 +34,10 @@ public interface GoodsDao {
 
     @Update("update goods set gname=#{goods.gname},price=#{goods.price},category=#{goods.category},total=#{goods.total},stock=#{goods.stock},state=#{goods.state},pic=#{goods.pic},details=#{goods.details},remarks=#{goods.remarks} where gid=#{goods.gid}")
     int updateGoods(@Param("goods") Goods goods);
+
+    @Select("select * from seckill where gid=#{gid}")
+    List<Seckill> selectSeckill(@Param("gid")int gid);
+
 
 
 }

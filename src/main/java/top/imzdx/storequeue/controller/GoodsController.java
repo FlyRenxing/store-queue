@@ -1,15 +1,20 @@
 package top.imzdx.storequeue.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.imzdx.storequeue.dao.GoodsDao;
 import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.interceptor.AdminRequired;
+import top.imzdx.storequeue.interceptor.LoginRequired;
 import top.imzdx.storequeue.pojo.Seckill;
+import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Goods;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
 import top.imzdx.storequeue.service.GoodsService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,6 +29,8 @@ public class GoodsController {
     private GoodsService goodsService;
     @Autowired
     private SeckillDao seckillDao;
+    @Autowired
+    private GoodsDao goodsDao;
 
     @GetMapping("category")
     public Result getCategory() {
@@ -50,7 +57,7 @@ public class GoodsController {
     }
 
     @GetMapping("{id}")//根据id获取商品
-    public Result getGoods(@PathVariable long id) {
+    public Result getGoods(@PathVariable int id) {
         Goods i = goodsService.getGoods(id);
         if (i != null) {
 
@@ -104,6 +111,21 @@ public class GoodsController {
             }
         } catch (NumberFormatException e) {
             return  new ResultTools().fail(203,"参数格式错误",null);
+        }
+    }
+
+
+    @LoginRequired
+    @GetMapping("{gid}/buy")
+    public Result buy(@PathVariable String gid, HttpSession session){
+        try {
+            if (goodsService.buy(Long.parseLong(gid),((User)session.getAttribute("user")).getUid())==1){//购买成功
+                return new ResultTools().success("购买成功",null);
+            }else{
+                return new ResultTools().fail(202,"购买失败",null);
+            }
+        } catch (NumberFormatException e) {
+            return new ResultTools().fail(201,"异常",null);
         }
     }
 }

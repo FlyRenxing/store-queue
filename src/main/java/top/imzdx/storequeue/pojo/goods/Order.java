@@ -5,11 +5,12 @@ public class Order {
 
   private long oid;
   private long uid;
-  private long adid;
   private long gid;
-  private java.sql.Timestamp ordertime;
+  private String ordertime;
   private long state;
   private double price;
+  private String goods_snapshot;
+  private String user_snapshot;
 
 
   public long getOid() {
@@ -30,15 +31,6 @@ public class Order {
   }
 
 
-  public long getAdid() {
-    return adid;
-  }
-
-  public void setAdid(long adid) {
-    this.adid = adid;
-  }
-
-
   public long getGid() {
     return gid;
   }
@@ -48,11 +40,11 @@ public class Order {
   }
 
 
-  public java.sql.Timestamp getOrdertime() {
+  public String getOrdertime() {
     return ordertime;
   }
 
-  public void setOrdertime(java.sql.Timestamp ordertime) {
+  public void setOrdertime(String ordertime) {
     this.ordertime = ordertime;
   }
 
@@ -72,6 +64,24 @@ public class Order {
 
   public void setPrice(double price) {
     this.price = price;
+  }
+
+
+  public String getGoods_snapshot() {
+    return goods_snapshot;
+  }
+
+  public void setGoods_snapshot(String goodsSnapshot) {
+    this.goods_snapshot = goodsSnapshot;
+  }
+
+
+  public String getUser_snapshot() {
+    return user_snapshot;
+  }
+
+  public void setUser_snapshot(String user_snapshot) {
+    this.user_snapshot = user_snapshot;
   }
 
 }
