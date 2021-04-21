@@ -19,11 +19,11 @@ public class SeckillController {
 
     @AdminRequired
     @PostMapping("new")
-    public Result newSecikill(int gid,String startdate,String starttime,String enddate,String endtime,String data) {
-        if (seckillService.newSeckill(gid,startdate, starttime,enddate, endtime, data)==1){
-            return new ResultTools().success("新增成功",null);
-        }else {
-            return  new ResultTools().fail(201,"新增失败",null);
+    public Result newSecikill(int gid, String startday, String starttime, String endday, String endtime, String data) {
+        if (seckillService.newSeckill(gid, startday, starttime, endday, endtime, data) == 1) {
+            return new ResultTools().success("新增成功", null);
+        } else {
+            return new ResultTools().fail(201, "新增失败", null);
         }
     }
 
@@ -39,18 +39,18 @@ public class SeckillController {
 
     @AdminRequired
     @PostMapping("edit")
-    public Result editSeckill(String sid,String gid,String startdate,String starttime,String enddate,String endtime,String data){
-        if (sid==null ||gid==null||startdate==null||starttime==null ||enddate==null||endtime==null||data==null){
-            return  new ResultTools().fail(201,"参数不完整",null);
+    public Result editSeckill(String sid, String gid, String startday, String starttime, String endday, String endtime, String data, String usecount) {
+        if (sid == null || gid == null || startday == null || starttime == null || endday == null || endtime == null || data == null || usecount == null) {
+            return new ResultTools().fail(201, "参数不完整", null);
         }
         try {
-            if (seckillService.editSeckill(Integer.parseInt(sid), Integer.parseInt(gid), startdate, starttime, enddate, endtime, data) == 1) {
+            if (seckillService.editSeckill(Integer.parseInt(sid), Integer.parseInt(gid), startday, starttime, endday, endtime, data, usecount) == 1) {
                 return new ResultTools().success("修改成功", null);
             } else {
                 return new ResultTools().fail(202, "修改失败", null);
             }
         } catch (NumberFormatException e) {
-           return  new ResultTools().fail(203,"异常",null);
+            return new ResultTools().fail(203, "异常", null);
         }
 
     }

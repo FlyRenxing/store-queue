@@ -13,14 +13,15 @@ public class SeckillService {
     @Autowired
     private SeckillDao seckillDao;
 
-    public int newSeckill(int gid,String startdate,String starttime,String enddate,String endtime,String data){
-        Seckill seckill=new Seckill();
+    public int newSeckill(int gid, String startday, String starttime, String endday, String endtime, String data) {
+        Seckill seckill = new Seckill();
         seckill.setGid(gid);
-        seckill.setStartdate(startdate);
+        seckill.setStartday(startday);
         seckill.setStarttime(starttime);
-        seckill.setEnddate(enddate);
+        seckill.setEndday(endday);
         seckill.setEndtime(endtime);
         seckill.setData(data);
+        seckill.setUsecount(0);
         return seckillDao.insertSeckill(seckill);
     }
 
@@ -28,15 +29,16 @@ public class SeckillService {
         return seckillDao.deleteSeckill(sid);
     }
 
-    public  int editSeckill(int sid,int gid,String startdate,String starttime,String enddate,String endtime,String data){
-        Seckill seckill=new Seckill();
+    public int editSeckill(int sid, int gid, String startday, String starttime, String endday, String endtime, String data, String usecount) {
+        Seckill seckill = new Seckill();
         seckill.setSid(sid);
         seckill.setGid(gid);
-        seckill.setStartdate(startdate);
+        seckill.setStartday(startday);
         seckill.setStarttime(starttime);
-        seckill.setEnddate(enddate);
+        seckill.setEndday(endday);
         seckill.setEndtime(endtime);
         seckill.setData(data);
+        seckill.setUsecount(Long.parseLong(usecount));
         return seckillDao.updateSeckill(seckill);
     }
 

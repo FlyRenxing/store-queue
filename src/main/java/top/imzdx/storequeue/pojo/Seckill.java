@@ -5,12 +5,20 @@ public class Seckill {
 
   private long sid;
   private long gid;
-  private String startdate;
+  private String startday;
   private String starttime;
-  private String enddate;
+  private String endday;
   private String endtime;
   private String data;
+  private long usecount;
 
+  public long getUsecount() {
+    return usecount;
+  }
+
+  public void setUsecount(long usecount) {
+    this.usecount = usecount;
+  }
 
   public long getSid() {
     return sid;
@@ -30,12 +38,12 @@ public class Seckill {
   }
 
 
-  public String getStartdate() {
-    return startdate;
+  public String getStartday() {
+    return startday;
   }
 
-  public void setStartdate(String startdate) {
-    this.startdate = startdate;
+  public void setStartday(String startday) {
+    this.startday = startday;
   }
 
 
@@ -48,12 +56,12 @@ public class Seckill {
   }
 
 
-  public String getEnddate() {
-    return enddate;
+  public String getEndday() {
+    return endday;
   }
 
-  public void setEnddate(String enddate) {
-    this.enddate = enddate;
+  public void setEndday(String endday) {
+    this.endday = endday;
   }
 
 

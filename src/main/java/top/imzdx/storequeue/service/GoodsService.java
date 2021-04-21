@@ -3,6 +3,7 @@ package top.imzdx.storequeue.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
+import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
@@ -19,6 +20,8 @@ import java.util.List;
 public class GoodsService {
     @Autowired
     private GoodsDao goodsDao;
+    @Autowired
+    private SeckillDao seckillDao;
     @Autowired
     private GoodsHandle goodsHandle;
 
@@ -43,7 +46,7 @@ public class GoodsService {
     }
 
     public List<Seckill> getSeckillByGid(int gid){
-        return goodsDao.selectSeckill(gid);
+        return seckillDao.selectSeckillByGid(gid);
     }
 
     public List<Goods> getGoodsRandom(int n) {
