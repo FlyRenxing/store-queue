@@ -37,4 +37,7 @@ public interface GoodsDao {
 
     @Select("select * from seckill where gid=#{gid}")
     List<Seckill> selectSeckill(@Param("gid")int gid);
+
+
+
 }
