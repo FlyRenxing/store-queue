@@ -17,7 +17,8 @@ public interface SeckillDao {
     @Update("UPDATE seckill SET gid=#{seckill.gid},starttime=#{seckill.starttime},startday=#{seckill.startday},endtime=#{seckill.endtime},endday=#{seckill.endday},data=#{seckill.data},usecount=#{seckill.usecount} WHERE sid = #{seckill.sid}")
     int updateSeckill(@Param("seckill") Seckill seckill);
 
-    @Select("select * from seckill")
+    //@Select("select * from seckill")
+    @Select("SELECT goods.gname, seckill.* FROM goods INNER JOIN seckill ON goods.gid = seckill.gid")
     List<Seckill> selectSeckill();
 
     @Select("select * from seckill where gid=#{gid}")

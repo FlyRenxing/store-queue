@@ -2,10 +2,7 @@ package top.imzdx.storequeue.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.imzdx.storequeue.interceptor.AdminRequired;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
@@ -28,12 +25,12 @@ public class SeckillController {
     }
 
     @AdminRequired
-    @PostMapping("delete")
-    public Result deleteSeckill(int sid){
-        if (seckillService.deleteSeckill(sid)==1){
-            return new ResultTools().success("删除成功",null);
-        }else {
-            return new ResultTools().fail(201,"gid错误",sid);
+    @GetMapping("{sid}/delete")
+    public Result deleteSeckill(@PathVariable int sid) {
+        if (seckillService.deleteSeckill(sid) == 1) {
+            return new ResultTools().success("删除成功", null);
+        } else {
+            return new ResultTools().fail(201, "gid错误", sid);
         }
     }
 

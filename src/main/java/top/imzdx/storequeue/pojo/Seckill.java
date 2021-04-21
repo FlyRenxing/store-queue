@@ -5,12 +5,35 @@ public class Seckill {
 
   private long sid;
   private long gid;
+  private String gname;
   private String startday;
   private String starttime;
   private String endday;
   private String endtime;
   private String data;
   private long usecount;
+
+  @Override
+  public String toString() {
+    return "Seckill{" +
+            "sid=" + sid +
+            ", gid=" + gid +
+            ", startday='" + startday + '\'' +
+            ", starttime='" + starttime + '\'' +
+            ", endday='" + endday + '\'' +
+            ", endtime='" + endtime + '\'' +
+            ", data=" + data +
+            ", usecount=" + usecount +
+            '}';
+  }
+
+  public String getGname() {
+    return gname;
+  }
+
+  public void setGname(String gname) {
+    this.gname = gname;
+  }
 
   public long getUsecount() {
     return usecount;
