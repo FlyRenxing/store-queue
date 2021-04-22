@@ -22,5 +22,5 @@ public interface SeckillDao {
     List<Seckill> selectSeckill();
 
     @Select("select * from seckill where gid=#{gid}")
-    List<Seckill> selectSeckillByGid(@Param("gid") int gid);
+    Seckill selectSeckillByGid(@Param("gid") int gid);
 }

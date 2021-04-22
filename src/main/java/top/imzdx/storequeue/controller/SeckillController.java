@@ -17,10 +17,13 @@ public class SeckillController {
     @AdminRequired
     @PostMapping("new")
     public Result newSecikill(int gid, String startday, String starttime, String endday, String endtime, String data) {
-        if (seckillService.newSeckill(gid, startday, starttime, endday, endtime, data) == 1) {
+        int code = seckillService.newSeckill(gid, startday, starttime, endday, endtime, data);
+        if (code == 1) {
             return new ResultTools().success("新增成功", null);
+        } else if (code == -1) {
+            return new ResultTools().fail(201, "该商品对应的营销活动已存在", null);
         } else {
-            return new ResultTools().fail(201, "新增失败", null);
+            return new ResultTools().fail(202, "新增失败", null);
         }
     }
 

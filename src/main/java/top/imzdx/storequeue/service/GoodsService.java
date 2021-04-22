@@ -52,7 +52,7 @@ public class GoodsService {
         return good;
     }
 
-    public List<Seckill> getSeckillByGid(int gid){
+    public Seckill getSeckillByGid(int gid) {
         return seckillDao.selectSeckillByGid(gid);
     }
 

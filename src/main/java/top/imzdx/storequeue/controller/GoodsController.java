@@ -1,6 +1,5 @@
 package top.imzdx.storequeue.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.imzdx.storequeue.dao.GoodsDao;
@@ -69,7 +68,7 @@ public class GoodsController {
 
     @GetMapping("{gid}/seckill")//根据商品id获得该商品的秒杀活动
     public Result getSeckillByGid(@PathVariable String gid){
-        List<Seckill> i=goodsService.getSeckillByGid(Integer.parseInt(gid));
+        Seckill i = goodsService.getSeckillByGid(Integer.parseInt(gid));
         if (i!=null){
             return new ResultTools().success("获取成功",i);
         }else{

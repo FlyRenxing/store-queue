@@ -14,6 +14,10 @@ public class SeckillService {
     private SeckillDao seckillDao;
 
     public int newSeckill(int gid, String startday, String starttime, String endday, String endtime, String data) {
+        Seckill seckillByGid = seckillDao.selectSeckillByGid(gid);
+        if (seckillByGid.getGid() == gid) {
+            return -1;
+        }
         Seckill seckill = new Seckill();
         seckill.setGid(gid);
         seckill.setStartday(startday);
