@@ -118,8 +118,11 @@ public class GoodsController {
     @GetMapping("{gid}/buy")
     public Result buy(@PathVariable String gid, HttpSession session){
         try {
-            if (goodsService.buy(Long.parseLong(gid),((User)session.getAttribute("user")).getUid())==1){//购买成功
+            int i=goodsService.buy(Long.parseLong(gid),((User)session.getAttribute("user")).getUid());
+            if (i==1){//购买成功
                 return new ResultTools().success("购买成功",null);
+            }else if(i==-1){
+                return new ResultTools().fail(203,"无库存",null);
             }else{
                 return new ResultTools().fail(202,"购买失败",null);
             }

@@ -50,4 +50,8 @@ public class SeckillService {
         return seckillDao.selectSeckill();
     }
 
+    public Seckill getSeckillByGid(int gid){
+        return seckillDao.selectSeckillByGid(gid);
+    }
+
 }
