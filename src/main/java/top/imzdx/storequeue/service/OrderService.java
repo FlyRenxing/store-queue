@@ -19,4 +19,8 @@ public class OrderService {
     public List<Order> getAllOrder() {
         return orderDao.getAllOrder();
     }
+
+    public List<Order> getUserOrder(long uid) {
+        return orderDao.getUserOrderByUid(uid);
+    }
 }
