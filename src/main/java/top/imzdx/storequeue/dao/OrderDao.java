@@ -1,7 +1,9 @@
 package top.imzdx.storequeue.dao;
 
-import org.apache.ibatis.annotations.*;
-import top.imzdx.storequeue.pojo.goods.Order;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import top.imzdx.storequeue.pojo.Order;
 
 @Mapper
 public interface OrderDao {

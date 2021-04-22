@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
 import top.imzdx.storequeue.dao.SeckillDao;
+import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
-import top.imzdx.storequeue.pojo.goods.Order;
 import top.imzdx.storequeue.tools.GoodsHandle;
 
 import java.util.List;
@@ -98,8 +98,8 @@ public class GoodsService {
     }
 
     public int  buy(long gid,long uid){//uid需要从controller类获取！
-        int stock= selectGoods(gid).getStock();//先获取库存
         Goods goods = goodsDao.getGoodsById(gid);
+        int stock = goods.getStock();//先获取库存
         if (stock>0) {//如果有库存的话，就减库存
             goods.setStock(goods.getStock() - 1);
             goodsDao.updateGoods(goods);

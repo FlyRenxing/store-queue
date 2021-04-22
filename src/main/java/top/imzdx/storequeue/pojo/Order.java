@@ -1,4 +1,4 @@
-package top.imzdx.storequeue.pojo.goods;
+package top.imzdx.storequeue.pojo;
 
 
 public class Order {
@@ -9,9 +9,26 @@ public class Order {
   private String ordertime;
   private long state;
   private double price;
+  private double discount;
+  private double pay;
   private String goods_snapshot;
   private String user_snapshot;
 
+  public double getDiscount() {
+    return discount;
+  }
+
+  public void setDiscount(double discount) {
+    this.discount = discount;
+  }
+
+  public double getPay() {
+    return pay;
+  }
+
+  public void setPay(double pay) {
+    this.pay = pay;
+  }
 
   public long getOid() {
     return oid;

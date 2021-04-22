@@ -124,7 +124,7 @@ public class GoodsController {
                 return new ResultTools().fail(202,"购买失败",null);
             }
         } catch (NumberFormatException e) {
-            return new ResultTools().fail(201,"异常",null);
+            return new ResultTools().fail(201, "参数错误", null);
         }
     }
 }
