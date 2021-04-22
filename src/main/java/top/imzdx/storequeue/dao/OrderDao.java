@@ -10,9 +10,12 @@ import java.util.List;
 
 @Mapper
 public interface OrderDao {
-    @Insert("INSERT INTO `order`(`uid`, `gid`, `ordertime`, `price`, `goods_snapshot`, `user_snapshot`) VALUES (#{order.uid}, #{order.gid}, now(), #{order.price}, #{order.goods_snapshot}, #{order.user_snapshot})")
+    @Insert("INSERT INTO `order`(`uid`, `gid`, `ordertime`, `price`,`discount`,`pay`, `goods_snapshot`, `user_snapshot`) VALUES (#{order.uid}, #{order.gid}, now(), #{order.price}, #{order.discount}, #{order.pay}, #{order.goods_snapshot}, #{order.user_snapshot})")
     int insetOrder(@Param("order") Order order);
 
     @Select("SELECT * FROM `order`")
     List<Order> getAllOrder();
+
+    @Select("SELECT * FROM `order` WHERE uid = #{uid}")
+    List<Order> getUserOrderByUid(long uid);
 }

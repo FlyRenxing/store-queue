@@ -14,6 +14,9 @@ import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
 import top.imzdx.storequeue.tools.GoodsHandle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,23 +108,36 @@ public class GoodsService {
         user.setPassword("****");
         if (stock>0) {//如果有库存的话，就判断他是否为秒杀商品，如果是就向order表添加数据
 
-            Seckill seckill=seckillService.getSeckillByGid(Integer.parseInt(String.valueOf(gid)));//获得了该商品，存入seckill表里
-            if (seckill!=null){//如果该商品为秒杀商品
+            Seckill seckill = seckillService.getSeckillByGid(Integer.parseInt(String.valueOf(gid)));//获得了该商品，存入seckill表里
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long start = 0, end = 0, now = 0;
+            try {
+                start = sdf.parse(seckill.getStartday() + " " + seckill.getStarttime()).getTime();
+                end = sdf.parse(seckill.getEndday() + " " + seckill.getEndtime()).getTime();
+                now = new Date().getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (seckill != null && start < now && now < end) {//如果该商品为秒杀商品且在活动期间内
                 //获得data字段的json数据，控制折扣 先useCount+1 再找到他应该享受的折扣top<useCount<end 再计算价格jsonObject.discount*goods.price=order.pay
-                JSONArray jsonArray =JSONArray.parseArray(seckill.getData());
+                JSONArray jsonArray = JSONArray.parseArray(seckill.getData());
 
-                seckill.setUsecount(seckill.getUsecount()+1);//享受折扣人数+1
-
+                seckill.setUsecount(seckill.getUsecount() + 1);//享受折扣人数+1
+                seckillService.editSeckill(seckill);
                 for (int i = 0; i < jsonArray.size(); i++) {
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);//??看不懂
-                    if (seckill.getUsecount() >=jsonObject.getInteger("top") && seckill.getUsecount() <=jsonObject.getInteger("end") ){//控制已享受折扣人数在该范围区间
+                    if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {//控制已享受折扣人数在该范围区间
                         //创建订单 调用orderservice 完善order表
                         order.setDiscount(jsonObject.getDouble("discount"));//来自jsonObject里 符合人数区间
-                        order.setPay(order.getDiscount()*order.getPrice());//来自刚刚存入的order里的discount * goods表里的原价
+                        order.setPay(order.getDiscount() * goods.getPrice());//来自刚刚存入的order里的discount * goods表里的原价
                         break;
                     }
-
+                    if (i == jsonArray.size() && jsonObject.getInteger("end") < seckill.getUsecount()) {
+                        //如果最后一个end仍然小于usecount那么按正常价格
+                        order.setDiscount(1);
+                        order.setPay(goods.getPrice());
+                    }
                 }
             }else{
                 order.setDiscount(1);
@@ -143,6 +159,7 @@ public class GoodsService {
             goodsDao.updateGoods(goods);//减库存
 
             //直接返回操作order表的结果
+            System.out.println(order);
             return orderService.newOrder(order);
         }else{
             return -1;//返回-1表示无库存

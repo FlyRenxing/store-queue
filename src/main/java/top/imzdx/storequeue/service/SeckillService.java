@@ -46,11 +46,15 @@ public class SeckillService {
         return seckillDao.updateSeckill(seckill);
     }
 
-    public List<Seckill> getAllSeckill(){
+    public int editSeckill(Seckill seckill) {
+        return seckillDao.updateSeckill(seckill);
+    }
+
+    public List<Seckill> getAllSeckill() {
         return seckillDao.selectSeckill();
     }
 
-    public Seckill getSeckillByGid(int gid){
+    public Seckill getSeckillByGid(int gid) {
         return seckillDao.selectSeckillByGid(gid);
     }
 
