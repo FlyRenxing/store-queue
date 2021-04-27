@@ -1,22 +1,16 @@
 package top.imzdx.storequeue.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
-import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
+import top.imzdx.storequeue.redis.RedisUtil;
 import top.imzdx.storequeue.tools.GoodsHandle;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +20,8 @@ import java.util.List;
  */
 @Service
 public class GoodsService {
+    @Autowired
+    private RedisUtil redisUtil;
     @Autowired
     private GoodsDao goodsDao;
     @Autowired
@@ -50,11 +46,27 @@ public class GoodsService {
     }
 
     public Goods getGoods(int id) {
-        Goods good = goodsDao.getGoodsById(id);
-        if (good.getState() == 1) {
+        Goods goods = (Goods) redisUtil.hget("goods", Integer.toString(id));
+        if (goods != null) {
+            System.out.println("缓存：" + goods);
+            return goods;
+        } else {
+            goods = goodsDao.getGoodsById(id);
+            System.out.println("数据库：" + goods);
+            redisUtil.hset("goods", Integer.toString(id), goods);
+            if (goods != null) {
+                if (goods.getState() == 1) {
+                    return null;
+                }
+                return goods;
+            }
             return null;
+//        Goods good = goodsDao.getGoodsById(id);
+//        if (good.getState() == 1) {
+//            return null;
+//        }
+//        return good;
         }
-        return good;
     }
 
     public Seckill getSeckillByGid(int gid) {

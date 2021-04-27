@@ -14,6 +14,21 @@ public class Goods {
   private String details;
   private String remarks;
 
+  @Override
+  public String toString() {
+    return "Goods{" +
+            "gid=" + gid +
+            ", gname='" + gname + '\'' +
+            ", price=" + price +
+            ", category=" + category +
+            ", total=" + total +
+            ", stock=" + stock +
+            ", state=" + state +
+            ", pic='" + pic + '\'' +
+            ", details='" + details + '\'' +
+            ", remarks='" + remarks + '\'' +
+            '}';
+  }
 
   public long getGid() {
     return gid;
