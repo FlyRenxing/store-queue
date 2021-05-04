@@ -113,8 +113,10 @@ public class GoodsService {
     public int buy(long gid, long uid) {//uid需要从controller类获取！
         Goods goods = getGoods(Math.toIntExact(gid));
         User user = userService.findUserByUid(uid);
-        Seckill seckill = seckillService.getSeckillByGid(Math.toIntExact(gid));
-        seckill.setUsecount(seckill.getUsecount() + 1);
+        Seckill seckill = seckillService.getSeckillByGid(gid);
+        if (seckill != null) {
+            seckill.setUsecount(seckill.getUsecount() + 1);
+        }
         Order order = null;
         if (hasStock(goods)) {
             subStock(goods, 1);
