@@ -12,7 +12,7 @@ public interface SeckillDao {
     int insertSeckill(@Param("seckill") Seckill seckill);
 
     @Delete("delete from seckill where sid=#{sid}")
-    int deleteSeckill(@Param("sid") int sid);
+    int deleteSeckill(@Param("sid") long sid);
 
     @Update("UPDATE seckill SET gid=#{seckill.gid},starttime=#{seckill.starttime},startday=#{seckill.startday},endtime=#{seckill.endtime},endday=#{seckill.endday},data=#{seckill.data},usecount=#{seckill.usecount} WHERE sid = #{seckill.sid}")
     int updateSeckill(@Param("seckill") Seckill seckill);
@@ -22,5 +22,5 @@ public interface SeckillDao {
     List<Seckill> selectSeckill();
 
     @Select("select * from seckill where gid=#{gid}")
-    Seckill selectSeckillByGid(@Param("gid") int gid);
+    Seckill selectSeckillByGid(@Param("gid") long gid);
 }

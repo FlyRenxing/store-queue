@@ -45,15 +45,15 @@ public class GoodsService {
         return goodsDao.getGoodsByCategory(category);
     }
 
-    public Goods getGoods(int id) {
-        Goods goods = (Goods) redisUtil.hget("goods", Integer.toString(id));
+    public Goods getGoods(long gid) {
+        Goods goods = (Goods) redisUtil.hget("goods", Long.toString(gid));
         if (goods != null) {
             System.out.println("缓存：" + goods);
             return goods;
         } else {
-            goods = goodsDao.getGoodsById(id);
+            goods = goodsDao.getGoodsByGid(gid);
             System.out.println("数据库：" + goods);
-            redisUtil.hset("goods", Integer.toString(id), goods);
+            redisUtil.hset("goods", Long.toString(gid), goods);
             if (goods != null) {
                 if (goods.getState() == 1) {
                     return null;
@@ -61,7 +61,7 @@ public class GoodsService {
                 return goods;
             }
             return null;
-//        Goods good = goodsDao.getGoodsById(id);
+//        Goods good = goodsDao.getGoodsByGid(gid);
 //        if (good.getState() == 1) {
 //            return null;
 //        }
@@ -92,6 +92,7 @@ public class GoodsService {
     }
 
     public int deleteGoods(long gid) {
+        redisUtil.hdel("goods", Long.toString(gid));
         return goodsDao.deleteGoods(gid);
     }
 
@@ -107,11 +108,12 @@ public class GoodsService {
         goods.setPic(pic);
         goods.setDetails(details);
         goods.setRemarks(remarks);
+        redisUtil.hset("goods", Long.toString(gid), goods);
         return goodsDao.updateGoods(goods);
     }
 
     public int buy(long gid, long uid) {//uid需要从controller类获取！
-        Goods goods = getGoods(Math.toIntExact(gid));
+        Goods goods = getGoods(gid);
         User user = userService.findUserByUid(uid);
         Seckill seckill = seckillService.getSeckillByGid(gid);
         if (seckill != null) {
@@ -127,25 +129,25 @@ public class GoodsService {
                 order = orderService.create(goods, user);
             }
         } else {
-            return -1;//返回-1表示无库存
+            //返回-1表示无库存
+            return -1;
         }
+        // TODO: 2021/5/4 消息队列 
         return orderService.newOrder(order);
     }
 
     private void subStock(Goods goods, int i) {
         goods.setStock(goods.getStock() - i);
+        redisUtil.hset("goods", goods.getGid() + "", goods);
+        // TODO: 2021/5/4 消息队列更改数据库 
         goodsDao.updateGoods(goods);
     }
 
-
     public Boolean hasStock(Goods goods) {//是否有库存的方法
-        int stock = goods.getStock();//获取库存
-        if (stock > 0) {//有库存
-            return true;
-        } else {
-            return false;
-        }
+        //获取库存
+        int stock = goods.getStock();
+        //有库存
+        return stock > 0;
     }
-
 
 }

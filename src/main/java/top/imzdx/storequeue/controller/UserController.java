@@ -47,11 +47,13 @@ public class UserController {
 
     @PostMapping("register")
     public Result register(String uname, String password, String phone, String email, String birthday) {
-        if (userService.EqualsUName(uname) != 0) {
+        if (userService.equalsUName(uname) != 0) {
             return new ResultTools().fail(201, "用户名重复", null);//用户名重复
         } else if (userService.register(uname, password, phone, email, birthday) == 1) {
             return new ResultTools().success("注册成功", null);
-        } else return new ResultTools().fail(203, "系统异常", null);//异常
+        } else {
+            return new ResultTools().fail(203, "系统异常", null);//异常
+        }
     }
 
     @GetMapping("profile")
@@ -82,7 +84,9 @@ public class UserController {
             return new ResultTools().fail(202, "密码重复", null);
         } else if (code == 203) {
             return new ResultTools().fail(203, "信息错误", null);
-        } else return new ResultTools().fail(204, "异常", null);
+        } else {
+            return new ResultTools().fail(204, "异常", null);
+        }
     }
 
     @PostMapping("editpassword")
@@ -97,7 +101,9 @@ public class UserController {
             return new ResultTools().success("修改密码成功", null);
         } else if (code == 201) {
             return new ResultTools().fail(201, "原密码错误", null);
-        } else return new ResultTools().fail(code, "系统异常", null);
+        } else {
+            return new ResultTools().fail(code, "系统异常", null);
+        }
     }
 
     @GetMapping("test2")
@@ -145,7 +151,7 @@ public class UserController {
             return new ResultTools().fail(201, "参数不完整", null);
         }
         try {
-            if (userService.UpdateUser(Integer.parseInt(uid), uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
+            if (userService.updateUser(Integer.parseInt(uid), uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
                 return new ResultTools().success("修改成功", null);
             } else {
                 return new ResultTools().fail(203, "查无此人", null);
@@ -163,11 +169,11 @@ public class UserController {
             return new ResultTools().fail(201, "参数不完整", null);
         }
 
-        if (userService.EqualsUName(uname) != 0) {
+        if (userService.equalsUName(uname) != 0) {
             return new ResultTools().fail(204, "用户名已存在", null);
         }
         try {
-            if (userService.newUser(uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
+            if (userService.register(uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
                 return new ResultTools().success("新建成功", null);
             } else {
                 return new ResultTools().fail(203, "新建失败", null);

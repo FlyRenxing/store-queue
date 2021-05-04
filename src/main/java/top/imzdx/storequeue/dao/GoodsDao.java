@@ -24,7 +24,7 @@ public interface GoodsDao {
     List<Goods> getGoodsRandom(int n);
 
     @Select("SELECT * FROM `goods` where gid=#{id}")
-    Goods getGoodsById(long id);
+    Goods getGoodsByGid(long id);
 
     @Insert("insert into goods(gname,price,category,total,stock,state,pic,details,remarks)  values(#{goods.gname},#{goods.price},#{goods.category},#{goods.total},#{goods.stock},#{goods.state},#{goods.pic},#{goods.details},#{goods.remarks})")
     int insertGoods(@Param("goods") Goods goods);
