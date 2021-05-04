@@ -59,7 +59,6 @@ public class GoodsController {
     public Result getGoods(@PathVariable int id) {
         Goods i = goodsService.getGoods(id);
         if (i != null) {
-
             return new ResultTools().success("获取成功", i);
         } else {
             return new ResultTools().fail(201, "商品不存在", null);

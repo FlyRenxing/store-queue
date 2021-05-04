@@ -119,10 +119,8 @@ public class GoodsService {
         if (hasStock(goods)) {
             subStock(goods, 1);
             if (seckillService.isSeckill(seckill)) {
-
                 seckillService.editSeckill(seckill);
                 order = orderService.create(goods, user, seckill);
-
             } else {
                 order = orderService.create(goods, user);
             }
