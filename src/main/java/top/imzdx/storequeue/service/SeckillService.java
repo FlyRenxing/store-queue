@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.pojo.Seckill;
+import top.imzdx.storequeue.redis.RedisUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,24 +18,28 @@ import java.util.List;
 public class SeckillService {
     @Autowired
     private SeckillDao seckillDao;
+    @Autowired
+    private RedisUtil redisUtil;
 
-    public int newSeckill(int gid, String startday, String starttime, String endday, String endtime, String data) {
+    public int newSeckill(int gid, String startDay, String startTime, String endDay, String endTime, String data) {
         Seckill seckillByGid = seckillDao.selectSeckillByGid(gid);
         if (seckillByGid.getGid() == gid) {
             return -1;
         }
         Seckill seckill = new Seckill();
         seckill.setGid(gid);
-        seckill.setStartday(startday);
-        seckill.setStarttime(starttime);
-        seckill.setEndday(endday);
-        seckill.setEndtime(endtime);
+        seckill.setStartday(startDay);
+        seckill.setStarttime(startTime);
+        seckill.setEndday(endDay);
+        seckill.setEndtime(endTime);
         seckill.setData(data);
         seckill.setUsecount(0);
+        redisUtil.hset("seckill", Long.toString(gid), seckill);
         return seckillDao.insertSeckill(seckill);
     }
 
-    public int deleteSeckill(int sid) {
+    public int deleteSeckill(long sid) {
+        redisUtil.hdel("seckill", Long.toString(sid));
         return seckillDao.deleteSeckill(sid);
     }
 
@@ -48,10 +53,13 @@ public class SeckillService {
         seckill.setEndtime(endtime);
         seckill.setData(data);
         seckill.setUsecount(Long.parseLong(usecount));
+        redisUtil.hdel("seckill", Long.toString(seckill.getSid()));
         return seckillDao.updateSeckill(seckill);
     }
 
     public int editSeckill(Seckill seckill) {
+        redisUtil.hdel("seckill", Long.toString(seckill.getSid()));
+        // TODO: 2021/5/4 消息队列
         return seckillDao.updateSeckill(seckill);
     }
 
@@ -59,8 +67,13 @@ public class SeckillService {
         return seckillDao.selectSeckill();
     }
 
-    public Seckill getSeckillByGid(int gid) {
-        return seckillDao.selectSeckillByGid(gid);
+    public Seckill getSeckillByGid(long gid) {
+        Seckill seckill = (Seckill) redisUtil.hget("seckill", Long.toString(gid));
+        if (seckill == null) {
+            seckill = seckillDao.selectSeckillByGid(gid);
+            redisUtil.hset("seckill", Long.toString(gid), seckill);
+        }
+        return seckill;
     }
 
     public int editUseCountByGid(int gid) {
@@ -73,7 +86,6 @@ public class SeckillService {
         if (seckill == null) {
             return false;
         } else {
-
             return true;
         }
     }

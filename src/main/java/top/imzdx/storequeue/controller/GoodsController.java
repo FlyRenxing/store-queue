@@ -56,7 +56,7 @@ public class GoodsController {
     }
 
     @GetMapping("{id}")//根据id获取商品
-    public Result getGoods(@PathVariable int id) {
+    public Result getGoods(@PathVariable long id) {
         Goods i = goodsService.getGoods(id);
         if (i != null) {
             return new ResultTools().success("获取成功", i);
