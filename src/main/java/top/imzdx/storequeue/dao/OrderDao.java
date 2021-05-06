@@ -17,5 +17,8 @@ public interface OrderDao {
     List<Order> getAllOrder();
 
     @Select("SELECT * FROM `order` WHERE uid = #{uid}")
-    List<Order> getUserOrderByUid(long uid);
+    List<Order> getOrderByUid(long uid);
+
+    @Select("SELECT * FROM `order` WHERE oid = #{oid}")
+    Order getOrderByOid(long oid);
 }

@@ -31,7 +31,7 @@ public class OrderService {
     }
 
     public List<Order> getUserOrder(long uid) {
-        return orderDao.getUserOrderByUid(uid);
+        return orderDao.getOrderByUid(uid);
     }
 
     public Order create(Goods goods, User user) {
@@ -83,4 +83,23 @@ public class OrderService {
         return order;
     }
 
+    public int pay(long uid, long oid) {
+        Order order = orderDao.getOrderByOid(oid);
+        if (order != null) {
+            order.setState(order.STATE_ISPAY);
+            return 200;
+        } else {
+            return 201;
+        }
+    }
+
+    public int close(long uid, long oid) {
+        Order order = orderDao.getOrderByOid(oid);
+        if (order != null) {
+            order.setState(order.STATE_CLOSE);
+            return 200;
+        } else {
+            return 201;
+        }
+    }
 }
