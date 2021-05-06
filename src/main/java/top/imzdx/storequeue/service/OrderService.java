@@ -1,8 +1,6 @@
 package top.imzdx.storequeue.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.OrderDao;
@@ -11,9 +9,6 @@ import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Goods;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,7 +22,7 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
-    public int newOrder(Order order) {
+    public int insertOrder(Order order) {
         return orderDao.insertOrder(order);
     }
 
@@ -72,7 +67,6 @@ public class OrderService {
         order.setUser_snapshot(user_snapshot);//同上
 
         order.setPrice(goods.getPrice());//查goods表该商品的价格，保证统一
-        JSONArray jsonArray = JSONArray.parseArray(seckill.getData());//把data字段里的东西变成一个数组
         if (seckillService.isSeckillTime(seckill)) {
             if (seckillService.isSeckillRange(seckill)) {
                 double discount=seckillService.getRangeDiscount(seckill);

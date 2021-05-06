@@ -117,8 +117,8 @@ public class GoodsController {
     @GetMapping("{gid}/buy")
     public Result buy(@PathVariable String gid, HttpSession session){
         try {
-            int i = goodsService.buy(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
-            if (i == 1) {//购买成功
+            int i = goodsService.buyCreate(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
+            if (i == 1) {
                 return new ResultTools().success("购买成功", null);
             } else if (i == goodsService.NO_STOCK) {
                 return new ResultTools().fail(203, "无库存", null);

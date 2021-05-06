@@ -11,7 +11,6 @@ import top.imzdx.storequeue.redis.RedisUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -80,22 +79,13 @@ public class SeckillService {
         return seckill;
     }
 
-
-    public boolean isSeckill(Seckill seckill) {
-        if (seckill == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public boolean isSeckillTime(Seckill seckill) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long start = 0, end = 0, now = 0;
         try {
             start = sdf.parse(seckill.getStartday() + " " + seckill.getStarttime()).getTime();
             end = sdf.parse(seckill.getEndday() + " " + seckill.getEndtime()).getTime();
-            now = new Date().getTime();
+            now = System.currentTimeMillis();
         } catch (ParseException e) {
             e.printStackTrace();
         }
