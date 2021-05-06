@@ -31,7 +31,7 @@ public class OrderService {
     }
 
     public List<Order> getUserOrder(long uid) {
-        return orderDao.getUserOrderByUid(uid);
+        return orderDao.getOrderByUid(uid);
     }
 
     public Order create(Goods goods, User user) {
@@ -69,7 +69,7 @@ public class OrderService {
         order.setPrice(goods.getPrice());//查goods表该商品的价格，保证统一
         if (seckillService.isSeckillTime(seckill)) {
             if (seckillService.isSeckillRange(seckill)) {
-                double discount=seckillService.getRangeDiscount(seckill);
+                double discount = seckillService.getRangeDiscount(seckill);
                 order.setDiscount(discount);//来自jsonObject里 符合人数区间
                 order.setPay(order.getDiscount() * goods.getPrice());//来自刚刚存入的order里的discount * goods表里的原价
             } else {
@@ -81,6 +81,17 @@ public class OrderService {
             order.setPay(goods.getPrice());
         }
         return order;
+    }
+
+    public int changeState(long uid, long oid, int stateCode) {
+        Order order = orderDao.getOrderByOid(oid);
+        if (order != null && order.getUid() == uid) {
+            order.setState(stateCode);
+            if (orderDao.update(order) == 1) {
+                return 200;
+            }
+        }
+        return 201;
     }
 
 }
