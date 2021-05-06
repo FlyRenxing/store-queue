@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface AdminDao {
-    @Select("SELECT SUM(price) FROM `order`;")
+    @Select("SELECT IFNULL(SUM(price),0) FROM `order`;")
     double getGvm();
 
     @Select("SELECT COUNT(1) FROM goods")
