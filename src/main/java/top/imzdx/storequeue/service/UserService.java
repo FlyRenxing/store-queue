@@ -121,7 +121,7 @@ public class UserService {
         user.setEmail(email);
         user.setBirthday(birthday);
         user.setLogo(logo);
-        redisUtil.hdel("user", Long.toString(uid));
+        redisUtil.hset("user", Long.toString(uid), user);
         return userDao.updateUser(user);
     }
 

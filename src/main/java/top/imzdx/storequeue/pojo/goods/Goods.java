@@ -1,7 +1,9 @@
 package top.imzdx.storequeue.pojo.goods;
 
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable {
 
   private long gid;
   private String gname;

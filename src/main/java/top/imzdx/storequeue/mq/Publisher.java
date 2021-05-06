@@ -17,9 +17,9 @@ public class Publisher {
     @Resource
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    public void publish(String queueName, String meg) {
+    public void publish(String queueName, Object meg) {
         Destination queue = new ActiveMQTopic(queueName);
-        System.out.println("发布topic消息" + meg);
+        //System.out.println("发布topic消息" + meg);
         jmsMessagingTemplate.convertAndSend(queue, meg);
     }
 }

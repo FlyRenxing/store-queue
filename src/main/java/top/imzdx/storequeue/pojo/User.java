@@ -1,7 +1,9 @@
 package top.imzdx.storequeue.pojo;
 
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
   private long uid;
   private String uname;

@@ -1,7 +1,9 @@
 package top.imzdx.storequeue.pojo;
 
 
-public class Seckill {
+import java.io.Serializable;
+
+public class Seckill implements Serializable {
 
   private long sid;
   private long gid;

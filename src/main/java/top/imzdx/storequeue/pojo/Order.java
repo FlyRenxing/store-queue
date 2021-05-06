@@ -1,7 +1,9 @@
 package top.imzdx.storequeue.pojo;
 
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
 
   private long oid;
   private long uid;

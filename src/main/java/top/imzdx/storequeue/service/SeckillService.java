@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.SeckillDao;
+import top.imzdx.storequeue.mq.Publisher;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.redis.RedisUtil;
 
@@ -20,6 +21,8 @@ public class SeckillService {
     private SeckillDao seckillDao;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private Publisher publisher;
 
     public int newSeckill(int gid, String startDay, String startTime, String endDay, String endTime, String data) {
         Seckill seckillByGid = seckillDao.selectSeckillByGid(gid);
@@ -53,13 +56,14 @@ public class SeckillService {
         seckill.setEndtime(endtime);
         seckill.setData(data);
         seckill.setUsecount(Long.parseLong(usecount));
-        redisUtil.hdel("seckill", Long.toString(seckill.getSid()));
+        redisUtil.hset("seckill", Long.toString(seckill.getSid()), seckill);
         return seckillDao.updateSeckill(seckill);
     }
 
     public int editSeckill(Seckill seckill) {
-        redisUtil.hdel("seckill", Long.toString(seckill.getSid()));
-        // TODO: 2021/5/4 消息队列
+        redisUtil.hset("seckill", Long.toString(seckill.getGid()), seckill);
+        //seckillDao.updateSeckill(seckill);
+        //publisher.publish("updateSeckill",seckill);
         return seckillDao.updateSeckill(seckill);
     }
 
@@ -76,11 +80,6 @@ public class SeckillService {
         return seckill;
     }
 
-    public int editUseCountByGid(int gid) {
-        Seckill seckill = getSeckillByGid(gid);
-        seckill.setUsecount(seckill.getUsecount() + 1);
-        return editSeckill(seckill);
-    }
 
     public boolean isSeckill(Seckill seckill) {
         if (seckill == null) {

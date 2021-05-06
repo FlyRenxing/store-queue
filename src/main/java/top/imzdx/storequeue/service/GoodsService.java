@@ -3,6 +3,7 @@ package top.imzdx.storequeue.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
+import top.imzdx.storequeue.mq.Publisher;
 import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @Service
 public class GoodsService {
+    final public int NO_STOCK = -1;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -32,6 +34,8 @@ public class GoodsService {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private Publisher publisher;
 
     public List<Category> getCategory() {
         return goodsDao.getCategory();
@@ -48,11 +52,11 @@ public class GoodsService {
     public Goods getGoods(long gid) {
         Goods goods = (Goods) redisUtil.hget("goods", Long.toString(gid));
         if (goods != null) {
-            System.out.println("缓存：" + goods);
+            //System.out.println("缓存：" + goods);
             return goods;
         } else {
             goods = goodsDao.getGoodsByGid(gid);
-            System.out.println("数据库：" + goods);
+            //System.out.println("数据库：" + goods);
             redisUtil.hset("goods", Long.toString(gid), goods);
             if (goods != null) {
                 if (goods.getState() == 1) {
@@ -112,16 +116,18 @@ public class GoodsService {
         return goodsDao.updateGoods(goods);
     }
 
+
+    //@JmsListener(destination = "buy",containerFactory = "topicListenerContainer")
     public int buy(long gid, long uid) {//uid需要从controller类获取！
         Goods goods = getGoods(gid);
         User user = userService.findUserByUid(uid);
-        Seckill seckill = seckillService.getSeckillByGid(gid);
-        if (seckill != null) {
-            seckill.setUsecount(seckill.getUsecount() + 1);
-        }
         Order order = null;
         if (hasStock(goods)) {
             subStock(goods, 1);
+            Seckill seckill = seckillService.getSeckillByGid(gid);
+            if (seckill != null) {
+                seckill.setUsecount(seckill.getUsecount() + 1);
+            }
             if (seckillService.isSeckill(seckill)) {
                 seckillService.editSeckill(seckill);
                 order = orderService.create(goods, user, seckill);
@@ -130,16 +136,16 @@ public class GoodsService {
             }
         } else {
             //返回-1表示无库存
-            return -1;
+            return NO_STOCK;
         }
-        // TODO: 2021/5/4 消息队列 
+        // TODO: 2021/5/4 消息队列
         return orderService.newOrder(order);
     }
 
     private void subStock(Goods goods, int i) {
         goods.setStock(goods.getStock() - i);
         redisUtil.hset("goods", goods.getGid() + "", goods);
-        // TODO: 2021/5/4 消息队列更改数据库 
+        // TODO: 2021/5/4 消息队列更改数据库
         goodsDao.updateGoods(goods);
     }
 
