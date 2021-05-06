@@ -119,7 +119,7 @@ public class GoodsController {
         try {
             int i = goodsService.buyCreate(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
             if (i == 1) {
-                return new ResultTools().success("购买成功", null);
+                return new ResultTools().success("您的购买请求已提交，正在排队中，请稍后在'我的-订单列表'内查询您的订单。", null);
             } else if (i == goodsService.NO_STOCK) {
                 return new ResultTools().fail(203, "无库存", null);
             } else {

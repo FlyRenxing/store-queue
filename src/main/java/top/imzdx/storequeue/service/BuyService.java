@@ -54,7 +54,9 @@ public class BuyService {
 
     /**
      * 该方法监听购买的库存队列。
-     * 若有库存则减库存并打包消息发送给购买的秒杀队列。
+     * 有库存则减库存并打包消息发送给购买的秒杀队列。
+     * <br>
+     * 无库存则打包消息发送给购买的订单队列。
      * <br>
      * 消息体List=[Goods,User]
      *
@@ -69,8 +71,10 @@ public class BuyService {
             meg.set(0, goods);
             System.out.println("库存" + goods.getStock());
             publisher.publish("buy.seckill", meg);
+        } else {
+            publisher.publish("buy.order", meg);
         }
-        //否则无库存不执行后续操作，即不创建订单
+
 
     }
 
@@ -102,7 +106,7 @@ public class BuyService {
     /**
      * 该方法监听购买的订单队列。
      * <br>
-     * 根据传入参数有无秒杀对象创建订单，并将订单写入数据库
+     * 根据传入参数有无秒杀对象创建订单，若商品库存为0则将订单State设为已取消状态。并将订单写入数据库
      *
      * @param meg 有秒杀时List=[Goods,User，Seckill]，无秒杀时List=[Goods,User]
      */
@@ -116,6 +120,9 @@ public class BuyService {
             order = orderService.create(goods, user, seckill);
         } else if (meg.size() == MEG_NO_SECKILL) {
             order = orderService.create(goods, user);
+        }
+        if (goods.getStock() == 0) {
+            order.setState(order.STATE_NOPAY);
         }
         orderService.insertOrder(order);
     }
