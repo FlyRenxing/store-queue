@@ -1,0 +1,110 @@
+package top.imzdx.storequeue.pojo;
+
+
+import java.io.Serializable;
+
+public class Seckill implements Serializable {
+
+  private long sid;
+  private long gid;
+  private String gname;
+  private String startday;
+  private String starttime;
+  private String endday;
+  private String endtime;
+  private String data;
+  private long usecount;
+
+  @Override
+  public String toString() {
+    return "Seckill{" +
+            "sid=" + sid +
+            ", gid=" + gid +
+            ", startday='" + startday + '\'' +
+            ", starttime='" + starttime + '\'' +
+            ", endday='" + endday + '\'' +
+            ", endtime='" + endtime + '\'' +
+            ", data=" + data +
+            ", usecount=" + usecount +
+            '}';
+  }
+
+  public String getGname() {
+    return gname;
+  }
+
+  public void setGname(String gname) {
+    this.gname = gname;
+  }
+
+  public long getUsecount() {
+    return usecount;
+  }
+
+  public void setUsecount(long usecount) {
+    this.usecount = usecount;
+  }
+
+  public long getSid() {
+    return sid;
+  }
+
+  public void setSid(long sid) {
+    this.sid = sid;
+  }
+
+
+  public long getGid() {
+    return gid;
+  }
+
+  public void setGid(long gid) {
+    this.gid = gid;
+  }
+
+
+  public String getStartday() {
+    return startday;
+  }
+
+  public void setStartday(String startday) {
+    this.startday = startday;
+  }
+
+
+  public String getStarttime() {
+    return starttime;
+  }
+
+  public void setStarttime(String starttime) {
+    this.starttime = starttime;
+  }
+
+
+  public String getEndday() {
+    return endday;
+  }
+
+  public void setEndday(String endday) {
+    this.endday = endday;
+  }
+
+
+  public String getEndtime() {
+    return endtime;
+  }
+
+  public void setEndtime(String endtime) {
+    this.endtime = endtime;
+  }
+
+
+  public String getData() {
+    return data;
+  }
+
+  public void setData(String data) {
+    this.data = data;
+  }
+
+}

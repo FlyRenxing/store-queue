@@ -1,19 +1,36 @@
 package top.imzdx.storequeue.pojo.goods;
 
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable {
 
   private long gid;
   private String gname;
   private double price;
   private long category;
   private long total;
-  private long stock;
+  private int stock;
   private int state;
   private String pic;
   private String details;
   private String remarks;
 
+  @Override
+  public String toString() {
+    return "Goods{" +
+            "gid=" + gid +
+            ", gname='" + gname + '\'' +
+            ", price=" + price +
+            ", category=" + category +
+            ", total=" + total +
+            ", stock=" + stock +
+            ", state=" + state +
+            ", pic='" + pic + '\'' +
+            ", details='" + details + '\'' +
+            ", remarks='" + remarks + '\'' +
+            '}';
+  }
 
   public long getGid() {
     return gid;
@@ -60,11 +77,11 @@ public class Goods {
   }
 
 
-  public long getStock() {
+  public int getStock() {
     return stock;
   }
 
-  public void setStock(long stock) {
+  public void setStock(int stock) {
     this.stock = stock;
   }
 
