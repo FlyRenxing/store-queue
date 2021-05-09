@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.imzdx.storequeue.interceptor.AdminRequired;
 import top.imzdx.storequeue.interceptor.LoginRequired;
+import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
@@ -37,7 +38,7 @@ public class OrderController {
     @GetMapping("{oid}/pay")
     public Result pay(@PathVariable long oid, HttpSession session) {
         long uid = ((User) session.getAttribute("user")).getUid();
-        int code = orderService.pay(uid, oid);
+        int code = orderService.changeState(uid, oid, new Order().STATE_ISPAY);
         if (code == 200) {
             return new ResultTools().success("支付成功", null);
         } else if (code == 201) {
@@ -51,7 +52,7 @@ public class OrderController {
     @GetMapping("{oid}/close")
     public Result closeOrder(@PathVariable long oid, HttpSession session) {
         long uid = ((User) session.getAttribute("user")).getUid();
-        int code = orderService.close(uid, oid);
+        int code = orderService.changeState(uid, oid, new Order().STATE_CLOSE);
         if (code == 200) {
             return new ResultTools().success("关闭成功", null);
         } else if (code == 201) {

@@ -66,10 +66,9 @@ public class BuyService {
     public void buyStock(List meg) {
         long gid = (long) meg.get(0);
         Goods goods = goodsService.getGoods(gid);
+        meg.set(0, goods);
         if (goodsService.hasStock(goods)) {
             goods = goodsService.subStock(goods, 1);
-            meg.set(0, goods);
-            System.out.println("库存" + goods.getStock());
             publisher.publish("buy.seckill", meg);
         } else {
             publisher.publish("buy.order", meg);
@@ -122,7 +121,7 @@ public class BuyService {
             order = orderService.create(goods, user);
         }
         if (goods.getStock() == 0) {
-            order.setState(order.STATE_NOPAY);
+            order.setState(order.STATE_CLOSE);
         }
         orderService.insertOrder(order);
     }

@@ -69,7 +69,7 @@ public class OrderService {
         order.setPrice(goods.getPrice());//查goods表该商品的价格，保证统一
         if (seckillService.isSeckillTime(seckill)) {
             if (seckillService.isSeckillRange(seckill)) {
-                double discount=seckillService.getRangeDiscount(seckill);
+                double discount = seckillService.getRangeDiscount(seckill);
                 order.setDiscount(discount);//来自jsonObject里 符合人数区间
                 order.setPay(order.getDiscount() * goods.getPrice());//来自刚刚存入的order里的discount * goods表里的原价
             } else {
@@ -83,23 +83,15 @@ public class OrderService {
         return order;
     }
 
-    public int pay(long uid, long oid) {
+    public int changeState(long uid, long oid, int stateCode) {
         Order order = orderDao.getOrderByOid(oid);
-        if (order != null) {
-            order.setState(order.STATE_ISPAY);
-            return 200;
-        } else {
-            return 201;
+        if (order != null && order.getUid() == uid) {
+            order.setState(stateCode);
+            if (orderDao.update(order) == 1) {
+                return 200;
+            }
         }
+        return 201;
     }
 
-    public int close(long uid, long oid) {
-        Order order = orderDao.getOrderByOid(oid);
-        if (order != null) {
-            order.setState(order.STATE_CLOSE);
-            return 200;
-        } else {
-            return 201;
-        }
-    }
 }

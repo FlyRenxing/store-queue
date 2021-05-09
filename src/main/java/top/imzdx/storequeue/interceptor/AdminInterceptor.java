@@ -26,7 +26,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        // ①:START 类注解级拦截器
+        // ①:START 方法注解级拦截器
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         // 判断接口是否需要登录
