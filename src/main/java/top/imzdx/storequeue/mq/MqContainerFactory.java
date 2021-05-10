@@ -1,11 +1,13 @@
 package top.imzdx.storequeue.mq;
 
+import com.ltsoft.jms.JmsConnectionFactory;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSContext;
 
 /**
  * @author Renxing
@@ -14,18 +16,25 @@ import javax.jms.ConnectionFactory;
  */
 @Configuration
 public class MqContainerFactory {
-    //    @Bean
-//    JmsListenerContainerFactory<?> mqContainerFactory(ConnectionFactory connectionFactory){
-//        SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
-//        factory.setConnectionFactory(connectionFactory);
-//        factory.setPubSubDomain(true);
-//        return factory;
+
+//    @Bean
+//    public JmsListenerContainerFactory<?> topicListenerContainer(ConnectionFactory activeMQConnectionFactory) {
+//        DefaultJmsListenerContainerFactory topicListenerContainer = new DefaultJmsListenerContainerFactory();
+//        topicListenerContainer.setPubSubDomain(true);
+//        topicListenerContainer.setConnectionFactory(activeMQConnectionFactory);
+//        return topicListenerContainer;
 //    }
+
     @Bean
-    public JmsListenerContainerFactory<?> topicListenerContainer(ConnectionFactory activeMQConnectionFactory) {
-        DefaultJmsListenerContainerFactory topicListenerContainer = new DefaultJmsListenerContainerFactory();
-        topicListenerContainer.setPubSubDomain(true);
-        topicListenerContainer.setConnectionFactory(activeMQConnectionFactory);
-        return topicListenerContainer;
+    public ConnectionFactory connectionFactory() {
+        RedissonClient client = Redisson.create();
+        ConnectionFactory connectionFactory = new JmsConnectionFactory("store", client);
+        return connectionFactory;
+    }
+
+    @Bean
+    public JMSContext jmsContext() {
+        JMSContext context = connectionFactory().createContext();
+        return context;
     }
 }

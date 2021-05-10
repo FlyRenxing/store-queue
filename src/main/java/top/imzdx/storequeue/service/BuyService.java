@@ -2,9 +2,8 @@ package top.imzdx.storequeue.service;
 
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
-import top.imzdx.storequeue.mq.Publisher;
+import top.imzdx.storequeue.mq.Producer;
 import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
@@ -29,7 +28,7 @@ public class BuyService {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private Publisher publisher;
+    private Producer producer;
 
     /**
      * 该方法监听购买的创建队列。
@@ -39,14 +38,14 @@ public class BuyService {
      *
      * @param meg JSONArray.toString=[gid,uid]
      */
-    @JmsListener(destination = "buy.create", containerFactory = "topicListenerContainer")
+    //@JmsListener(destination = "buy.create", containerFactory = "topicListenerContainer")
     public void buy(String meg) {
+        System.out.println("buy:" + meg);
         JSONArray array = JSONArray.parseArray(meg);
         long uid = array.getLong(1);
         User user = userService.findUserByUid(uid);
-
         array.set(1, user);
-        publisher.publish("buy.stock", array.toString());
+        producer.sendMsg("buy.stock", array.toString());
     }
 
     /**
@@ -59,17 +58,19 @@ public class BuyService {
      *
      * @param meg JSONArray.toString=[gid,uid]
      */
-    @JmsListener(destination = "buy.stock", containerFactory = "topicListenerContainer")
+    //@JmsListener(destination = "buy.stock", containerFactory = "topicListenerContainer")
     public void buyStock(String meg) {
+        System.out.println("buyStock:" + meg);
         JSONArray array = JSONArray.parseArray(meg);
         long gid = array.getLong(0);
         Goods goods = goodsService.getGoods(gid);
         array.set(0, goods);
+        String arrayMeg = array.toString();
         if (goodsService.hasStock(goods)) {
             goodsService.subStock(goods, 1);
-            publisher.publish("buy.seckill", array.toString());
+            producer.sendMsg("buy.seckill", arrayMeg);
         } else {
-            publisher.publish("buy.order", array.toString());
+            producer.sendMsg("buy.order", arrayMeg);
         }
 
     }
@@ -87,7 +88,7 @@ public class BuyService {
      *
      * @param meg JSONArray.toString=[gid,User]
      */
-    @JmsListener(destination = "buy.seckill", containerFactory = "topicListenerContainer")
+    //@JmsListener(destination = "buy.seckill", containerFactory = "topicListenerContainer")
     public void buySeckill(String meg) {
         JSONArray array = JSONArray.parseArray(meg);
         Goods goods = array.getObject(0, Goods.class);
@@ -97,7 +98,7 @@ public class BuyService {
             seckillService.editSeckill(seckill);
             array.add(seckill);
         }
-        publisher.publish("buy.order", array.toString());
+        producer.sendMsg("buy.order", array.toString());
     }
 
     /**
@@ -107,7 +108,7 @@ public class BuyService {
      *
      * @param meg 有秒杀时JSONArray.toString=[Goods,User,Seckill]，无秒杀时JSONArray.toString=[Goods,User]
      */
-    @JmsListener(destination = "buy.order", containerFactory = "topicListenerContainer")
+    //@JmsListener(destination = "buy.order", containerFactory = "topicListenerContainer")
     public void buyOrder(String meg) {
         JSONArray array = JSONArray.parseArray(meg);
         Goods goods = array.getObject(0, Goods.class);
@@ -119,7 +120,8 @@ public class BuyService {
         } else if (array.size() == MEG_NO_SECKILL) {
             order = orderService.create(goods, user);
         }
-        if (goods.getStock() == 0) {
+        System.out.println(goods.toString());
+        if (goods.getStock() <= 0) {
             order.setState(order.STATE_CLOSE);
         }
         orderService.insertOrder(order);

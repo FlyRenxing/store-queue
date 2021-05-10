@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
-import top.imzdx.storequeue.mq.Publisher;
+import top.imzdx.storequeue.mq.Producer;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.goods.Category;
 import top.imzdx.storequeue.pojo.goods.Goods;
@@ -34,7 +34,7 @@ public class GoodsService {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private Publisher publisher;
+    private Producer producer;
 
     public List<Category> getCategory() {
         return goodsDao.getCategory();
@@ -120,7 +120,7 @@ public class GoodsService {
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
-        publisher.publish("buy.create", meg.toString());
+        producer.sendMsg("buy.create", meg.toString());
         return 1;
 
     }

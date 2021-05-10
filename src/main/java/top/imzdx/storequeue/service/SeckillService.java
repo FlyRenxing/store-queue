@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.SeckillDao;
-import top.imzdx.storequeue.mq.Publisher;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.redis.RedisUtil;
 
@@ -20,8 +19,7 @@ public class SeckillService {
     private SeckillDao seckillDao;
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private Publisher publisher;
+
 
     public int newSeckill(int gid, String startDay, String startTime, String endDay, String endTime, String data) {
         Seckill seckillByGid = seckillDao.selectSeckillByGid(gid);
@@ -102,7 +100,7 @@ public class SeckillService {
         JSONArray jsonArray = JSONArray.parseArray(seckill.getData());//把data字段里的东西变成一个数组
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);//??看不懂
-            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() < jsonObject.getInteger("end")) {//控制已享受折扣人数在该范围区间
+            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {//控制已享受折扣人数在该范围区间
                 return true;
             }
 
