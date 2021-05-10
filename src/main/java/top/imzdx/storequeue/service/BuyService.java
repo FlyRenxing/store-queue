@@ -1,5 +1,6 @@
 package top.imzdx.storequeue.service;
 
+import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,6 @@ import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Goods;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -37,19 +35,18 @@ public class BuyService {
      * 该方法监听购买的创建队列。
      * 打包消息发送至购买的库存队列。
      * <br>
-     * 消息体List=[gid,User]
+     * 消息体 List=[gid,User]
      *
-     * @param meg long[]={gid,uid}
+     * @param meg JSONArray.toString=[gid,uid]
      */
     @JmsListener(destination = "buy.create", containerFactory = "topicListenerContainer")
-    public void buy(long[] meg) {
-        long gid = meg[0];
-        long uid = meg[1];
+    public void buy(String meg) {
+        JSONArray array = JSONArray.parseArray(meg);
+        long uid = array.getLong(1);
         User user = userService.findUserByUid(uid);
-        List newMeg = new ArrayList();
-        newMeg.add(gid);
-        newMeg.add(user);
-        publisher.publish("buy.stock", newMeg);
+
+        array.set(1, user);
+        publisher.publish("buy.stock", array.toString());
     }
 
     /**
@@ -58,22 +55,22 @@ public class BuyService {
      * <br>
      * 无库存则打包消息发送给购买的订单队列。
      * <br>
-     * 消息体List=[Goods,User]
+     * 消息体 JSONArray.toString=[gid,User]
      *
-     * @param meg List=[gid,User]
+     * @param meg JSONArray.toString=[gid,uid]
      */
     @JmsListener(destination = "buy.stock", containerFactory = "topicListenerContainer")
-    public void buyStock(List meg) {
-        long gid = (long) meg.get(0);
+    public void buyStock(String meg) {
+        JSONArray array = JSONArray.parseArray(meg);
+        long gid = array.getLong(0);
         Goods goods = goodsService.getGoods(gid);
-        meg.set(0, goods);
+        array.set(0, goods);
         if (goodsService.hasStock(goods)) {
-            goods = goodsService.subStock(goods, 1);
-            publisher.publish("buy.seckill", meg);
+            goodsService.subStock(goods, 1);
+            publisher.publish("buy.seckill", array.toString());
         } else {
-            publisher.publish("buy.order", meg);
+            publisher.publish("buy.order", array.toString());
         }
-
 
     }
 
@@ -82,24 +79,25 @@ public class BuyService {
      * <br>
      * 有秒杀则更新秒杀使用次数记录,并打包消息发送给购买的订单队列。
      * <br>
-     * 消息体：List=[Goods,User，Seckill]
+     * 消息体：JSONArray.toString=[Goods,User,Seckill]
      * <br>
      * 无秒杀则直接打包消息发送给购买的订单队列。
      * <br>
-     * 消息体：List=[Goods,User]
+     * 消息体：JSONArray.toString=[Goods,User]
      *
-     * @param meg List=[Goods,User]
+     * @param meg JSONArray.toString=[gid,User]
      */
     @JmsListener(destination = "buy.seckill", containerFactory = "topicListenerContainer")
-    public void buySeckill(List meg) {
-        Goods goods = (Goods) meg.get(0);
+    public void buySeckill(String meg) {
+        JSONArray array = JSONArray.parseArray(meg);
+        Goods goods = array.getObject(0, Goods.class);
         Seckill seckill = seckillService.getSeckillByGid(goods.getGid());
         if (seckill != null) {
             seckill.setUsecount(seckill.getUsecount() + 1);
             seckillService.editSeckill(seckill);
-            meg.add(seckill);
+            array.add(seckill);
         }
-        publisher.publish("buy.order", meg);
+        publisher.publish("buy.order", array.toString());
     }
 
     /**
@@ -107,17 +105,18 @@ public class BuyService {
      * <br>
      * 根据传入参数有无秒杀对象创建订单，若商品库存为0则将订单State设为已取消状态。并将订单写入数据库
      *
-     * @param meg 有秒杀时List=[Goods,User，Seckill]，无秒杀时List=[Goods,User]
+     * @param meg 有秒杀时JSONArray.toString=[Goods,User,Seckill]，无秒杀时JSONArray.toString=[Goods,User]
      */
     @JmsListener(destination = "buy.order", containerFactory = "topicListenerContainer")
-    public void buyOrder(List meg) {
-        Goods goods = (Goods) meg.get(0);
-        User user = (User) meg.get(1);
+    public void buyOrder(String meg) {
+        JSONArray array = JSONArray.parseArray(meg);
+        Goods goods = array.getObject(0, Goods.class);
+        User user = array.getObject(1, User.class);
         Order order = null;
-        if (meg.size() == MEG_HAS_SECKILL) {
-            Seckill seckill = (Seckill) meg.get(2);
+        if (array.size() == MEG_HAS_SECKILL) {
+            Seckill seckill = array.getObject(2, Seckill.class);
             order = orderService.create(goods, user, seckill);
-        } else if (meg.size() == MEG_NO_SECKILL) {
+        } else if (array.size() == MEG_NO_SECKILL) {
             order = orderService.create(goods, user);
         }
         if (goods.getStock() == 0) {

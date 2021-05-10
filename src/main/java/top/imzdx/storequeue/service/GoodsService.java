@@ -1,5 +1,6 @@
 package top.imzdx.storequeue.service;
 
+import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.GoodsDao;
@@ -115,8 +116,11 @@ public class GoodsService {
     }
 
     public int buyCreate(long gid, long uid) {
-        long[] meg = new long[]{gid, uid};
-        publisher.publish("buy.create", meg);
+        //long[] meg = new long[]{gid, uid};
+        JSONArray meg = new JSONArray();
+        meg.add(gid);
+        meg.add(uid);
+        publisher.publish("buy.create", meg.toString());
         return 1;
 
     }
