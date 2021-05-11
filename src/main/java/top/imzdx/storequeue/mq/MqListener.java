@@ -18,16 +18,18 @@ import javax.jms.Queue;
 public class MqListener {
     @Autowired
     private BuyService buyService;
+    private final JMSContext context;
 
     @Autowired
     public MqListener(JMSContext context) {
-        buyListener(context);
-        buyStockListener(context);
-        buySeckillListener(context);
-        buyOrderListener(context);
+        this.context = context;
+        buyListener();
+        buyStockListener();
+        buySeckillListener();
+        buyOrderListener();
     }
 
-    public void buyListener(JMSContext context) {
+    public void buyListener() {
         Queue queue = context.createQueue("buy.create");
         JMSConsumer consumer = context.createConsumer(queue);
         consumer.setMessageListener(message -> {
@@ -37,14 +39,9 @@ public class MqListener {
                 e.printStackTrace();
             }
         });
-        try {
-            System.out.println(queue.getQueueName() + "已建立监听");
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void buyStockListener(JMSContext context) {
+    public void buyStockListener() {
         Queue queue = context.createQueue("buy.stock");
         JMSConsumer consumer = context.createConsumer(queue);
         consumer.setMessageListener(message -> {
@@ -54,14 +51,9 @@ public class MqListener {
                 e.printStackTrace();
             }
         });
-        try {
-            System.out.println(queue.getQueueName() + "已建立监听");
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void buySeckillListener(JMSContext context) {
+    public void buySeckillListener() {
         Queue queue = context.createQueue("buy.seckill");
         JMSConsumer consumer = context.createConsumer(queue);
         consumer.setMessageListener(message -> {
@@ -71,14 +63,9 @@ public class MqListener {
                 e.printStackTrace();
             }
         });
-        try {
-            System.out.println(queue.getQueueName() + "已建立监听");
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void buyOrderListener(JMSContext context) {
+    public void buyOrderListener() {
         Queue queue = context.createQueue("buy.order");
         JMSConsumer consumer = context.createConsumer(queue);
         consumer.setMessageListener(message -> {
@@ -88,11 +75,6 @@ public class MqListener {
                 e.printStackTrace();
             }
         });
-        try {
-            System.out.println(queue.getQueueName() + "已建立监听");
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }
     }
 
 }

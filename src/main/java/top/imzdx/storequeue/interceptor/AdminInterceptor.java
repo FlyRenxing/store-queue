@@ -34,7 +34,6 @@ public class AdminInterceptor implements HandlerInterceptor {
         // 有 @LoginRequired 注解，需要认证
         if (methodAnnotation != null) {
             // 这写你拦截需要干的事儿，比如取缓存，SESSION，权限判断等
-            //System.out.println("!null");
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             if (user == null) {
@@ -43,7 +42,7 @@ public class AdminInterceptor implements HandlerInterceptor {
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter out = null;
                 try {
-                    String json = new JSONObject().toJSONString(result);
+                    String json = JSONObject.toJSONString(result);
                     out = response.getWriter();
                     out.append(json);
                 } catch (Exception e) {
@@ -61,7 +60,7 @@ public class AdminInterceptor implements HandlerInterceptor {
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter out = null;
                 try {
-                    String json = new JSONObject().toJSONString(result);
+                    String json = JSONObject.toJSONString(result);
                     out = response.getWriter();
                     out.append(json);
                     return false;

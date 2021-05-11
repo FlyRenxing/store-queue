@@ -40,7 +40,6 @@ public class BuyService {
      */
     //@JmsListener(destination = "buy.create", containerFactory = "topicListenerContainer")
     public void buy(String meg) {
-        System.out.println("buy:" + meg);
         JSONArray array = JSONArray.parseArray(meg);
         long uid = array.getLong(1);
         User user = userService.findUserByUid(uid);
@@ -60,7 +59,6 @@ public class BuyService {
      */
     //@JmsListener(destination = "buy.stock", containerFactory = "topicListenerContainer")
     public void buyStock(String meg) {
-        System.out.println("buyStock:" + meg);
         JSONArray array = JSONArray.parseArray(meg);
         long gid = array.getLong(0);
         Goods goods = goodsService.getGoods(gid);
@@ -120,7 +118,6 @@ public class BuyService {
         } else if (array.size() == MEG_NO_SECKILL) {
             order = orderService.create(goods, user);
         }
-        System.out.println(goods.toString());
         if (goods.getStock() <= 0) {
             order.setState(order.STATE_CLOSE);
         }

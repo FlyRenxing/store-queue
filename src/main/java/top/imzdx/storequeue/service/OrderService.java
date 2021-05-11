@@ -40,16 +40,15 @@ public class OrderService {
 
         order.setUid(user.getUid());
         order.setGid(goods.getGid());
-
-        order.setPrice(goods.getPrice());//查goods表该商品的价格，保证统一
+        order.setPrice(goods.getPrice());
         order.setDiscount(1);
         order.setPay(goods.getPrice());
 
-        String goods_snapshot = JSON.toJSONString(goods);//运用了json
-        order.setGoods_snapshot(goods_snapshot);//把他存入order实体类表里
+        String goodsSnapshot = JSON.toJSONString(goods);
+        order.setGoods_snapshot(goodsSnapshot);
 
-        String user_snapshot = JSON.toJSONString(user);
-        order.setUser_snapshot(user_snapshot);//同上
+        String userSnapshot = JSON.toJSONString(user);
+        order.setUser_snapshot(userSnapshot);
         return order;
     }
 
@@ -60,18 +59,18 @@ public class OrderService {
         order.setUid(user.getUid());
         order.setGid(goods.getGid());
 
-        String goods_snapshot = JSON.toJSONString(goods);//运用了json
-        order.setGoods_snapshot(goods_snapshot);//把他存入order实体类表里
+        String goodsSnapshot = JSON.toJSONString(goods);
+        order.setGoods_snapshot(goodsSnapshot);
 
-        String user_snapshot = JSON.toJSONString(user);
-        order.setUser_snapshot(user_snapshot);//同上
+        String userSnapshot = JSON.toJSONString(user);
+        order.setUser_snapshot(userSnapshot);
 
-        order.setPrice(goods.getPrice());//查goods表该商品的价格，保证统一
+        order.setPrice(goods.getPrice());
         if (seckillService.isSeckillTime(seckill)) {
             if (seckillService.isSeckillRange(seckill)) {
                 double discount = seckillService.getRangeDiscount(seckill);
-                order.setDiscount(discount);//来自jsonObject里 符合人数区间
-                order.setPay(order.getDiscount() * goods.getPrice());//来自刚刚存入的order里的discount * goods表里的原价
+                order.setDiscount(discount);
+                order.setPay(order.getDiscount() * goods.getPrice());
             } else {
                 order.setDiscount(1);
                 order.setPay(goods.getPrice());

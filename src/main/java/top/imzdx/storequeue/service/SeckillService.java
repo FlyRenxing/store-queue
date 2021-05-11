@@ -59,8 +59,6 @@ public class SeckillService {
 
     public int editSeckill(Seckill seckill) {
         redisUtil.hset("seckill", Long.toString(seckill.getGid()), seckill);
-        //seckillDao.updateSeckill(seckill);
-        //publisher.publish("updateSeckill",seckill);
         return seckillDao.updateSeckill(seckill);
     }
 
@@ -89,18 +87,15 @@ public class SeckillService {
         }
         //以上为获取秒杀时间等步骤
 
-        if (seckill != null && start < now && now < end) {//如果该商品为秒杀商品且在活动期间内
-            return true;
-        } else {
-            return false;
-        }
+        return seckill != null && start < now && now < end;
     }
 
     public boolean isSeckillRange(Seckill seckill) {
-        JSONArray jsonArray = JSONArray.parseArray(seckill.getData());//把data字段里的东西变成一个数组
+        //把data字段里的东西变成一个数组
+        JSONArray jsonArray = JSONArray.parseArray(seckill.getData());
         for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);//??看不懂
-            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {//控制已享受折扣人数在该范围区间
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {
                 return true;
             }
 
@@ -110,10 +105,10 @@ public class SeckillService {
     }
 
     public double getRangeDiscount(Seckill seckill) {
-        JSONArray jsonArray = JSONArray.parseArray(seckill.getData());//把data字段里的东西变成一个数组
+        JSONArray jsonArray = JSONArray.parseArray(seckill.getData());
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {//控制已享受折扣人数在该范围区间
+            if (seckill.getUsecount() >= jsonObject.getInteger("top") && seckill.getUsecount() <= jsonObject.getInteger("end")) {
                 return jsonObject.getDouble("discount");
             }
 

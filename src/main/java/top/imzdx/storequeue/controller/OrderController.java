@@ -1,6 +1,5 @@
 package top.imzdx.storequeue.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +12,13 @@ import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
 import top.imzdx.storequeue.service.OrderService;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    @Autowired
+    @Resource
     private OrderService orderService;
 
     @LoginRequired

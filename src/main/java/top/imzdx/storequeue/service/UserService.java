@@ -1,31 +1,30 @@
 package top.imzdx.storequeue.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.UserDao;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.redis.RedisUtil;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @author Renxing
- * @description
  * @date 2021/4/6 21:36
  */
 @Service
 public class UserService {
-    @Autowired
+    @Resource
     private UserDao userDao;
-    @Autowired
+    @Resource
     private RedisUtil redisUtil;
 
     public User login(String uname, String password) {
         return userDao.getUserByNameAndPassword(uname, password);
     }
 
-    public int equalsUName(String uname) {
-        return userDao.getEqulsUName(uname);
+    public int equalsUserName(String uname) {
+        return userDao.getEqulsUserName(uname);
     }
 
     public int register(String uname, String password, String phone, String email, String birthday) {

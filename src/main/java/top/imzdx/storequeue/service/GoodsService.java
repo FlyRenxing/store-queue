@@ -20,7 +20,8 @@ import java.util.List;
  */
 @Service
 public class GoodsService {
-    final public int NO_STOCK = -1;
+    final public int SUCCESS = 200;
+    final public int NO_STOCK = 201;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -51,11 +52,9 @@ public class GoodsService {
     public Goods getGoods(long gid) {
         Goods goods = (Goods) redisUtil.hget("goods", Long.toString(gid));
         if (goods != null) {
-            //System.out.println("缓存：" + goods);
             return goods;
         } else {
             goods = goodsDao.getGoodsByGid(gid);
-            //System.out.println("数据库：" + goods);
             redisUtil.hset("goods", Long.toString(gid), goods);
             if (goods != null) {
                 if (goods.getState() == 1) {
@@ -120,39 +119,17 @@ public class GoodsService {
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
+        if (!hasStock(getGoods(gid))) {
+            return NO_STOCK;
+        }
         producer.sendMsg("buy.create", meg.toString());
         return 1;
-
     }
-
-//    public int buy(long gid, long uid) {//uid需要从controller类获取！
-//        Goods goods = getGoods(gid);
-//        User user = userService.findUserByUid(uid);
-//        Order order = null;
-//        if (hasStock(goods)) {
-//            subStock(goods, 1);
-//            Seckill seckill = seckillService.getSeckillByGid(gid);
-//            if (seckill != null) {
-//                seckill.setUsecount(seckill.getUsecount() + 1);
-//            }
-//            if (seckillService.isSeckill(seckill)) {
-//                seckillService.editSeckill(seckill);
-//                order = orderService.create(goods, user, seckill);
-//            } else {
-//                order = orderService.create(goods, user);
-//            }
-//        } else {
-//            //返回-1表示无库存
-//            return NO_STOCK;
-//        }
-//        return orderService.insertOrder(order);
-//    }
 
     public Goods subStock(Goods goods, int i) {
         goods.setStock(goods.getStock() - i);
         redisUtil.hset("goods", goods.getGid() + "", goods);
         goodsDao.updateGoods(goods);
-        // TODO: 2021/5/4 消息队列更改数据库
         return goods;
     }
 

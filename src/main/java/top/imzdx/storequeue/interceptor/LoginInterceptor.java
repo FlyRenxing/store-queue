@@ -44,7 +44,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter out = null;
                 try {
-                    String json = new JSONObject().toJSONString(result);
+                    String json = JSONObject.toJSONString(result);
                     out = response.getWriter();
                     out.append(json);
                     return false;

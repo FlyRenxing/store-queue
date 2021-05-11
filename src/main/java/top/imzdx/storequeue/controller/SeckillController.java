@@ -40,9 +40,8 @@ public class SeckillController {
     @AdminRequired
     @PostMapping("edit")
     public Result editSeckill(String sid, String gid, String startday, String starttime, String endday, String endtime, String data, String usecount) {
-        if (sid == null || gid == null || startday == null || starttime == null || endday == null || endtime == null || data == null || usecount == null) {
+        if (GoodsController.notNull(sid, gid, startday, starttime, endday, endtime, data, usecount))
             return new ResultTools().fail(201, "参数不完整", null);
-        }
         try {
             if (seckillService.editSeckill(Integer.parseInt(sid), Integer.parseInt(gid), startday, starttime, endday, endtime, data, usecount) == 1) {
                 return new ResultTools().success("修改成功", null);

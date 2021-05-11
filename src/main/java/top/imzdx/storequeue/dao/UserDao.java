@@ -16,7 +16,7 @@ public interface UserDao {
     User getUserByNameAndPassword(@Param("uname") String uname, @Param("password") String password);
 
     @Select("select count(uname) from user where uname=#{uname} ")
-    int getEqulsUName(@Param("uname") String uname);
+    int getEqulsUserName(@Param("uname") String uname);
 
     @Insert("INSERT INTO user(`uname`, `password`, `phone`, `email`, `birthday`, `regtime`, `type`,`logo`)VALUES (#{user.uname}, #{user.password}, #{user.phone}, #{user.email}, #{user.birthday}, NOW(),#{user.type},#{user.logo})")
     int insertToUser(@Param("user") User user);

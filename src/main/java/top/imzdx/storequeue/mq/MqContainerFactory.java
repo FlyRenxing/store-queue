@@ -3,11 +3,13 @@ package top.imzdx.storequeue.mq;
 import com.ltsoft.jms.JmsConnectionFactory;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSContext;
+import java.io.IOException;
 
 /**
  * @author Renxing
@@ -27,7 +29,13 @@ public class MqContainerFactory {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        RedissonClient client = Redisson.create();
+        Config config = null;
+        try {
+            config = Config.fromYAML(MqContainerFactory.class.getClassLoader().getResource("redisson-config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RedissonClient client = Redisson.create(config);
         ConnectionFactory connectionFactory = new JmsConnectionFactory("store", client);
         return connectionFactory;
     }

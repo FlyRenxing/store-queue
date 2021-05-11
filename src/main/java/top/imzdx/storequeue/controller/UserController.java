@@ -46,12 +46,12 @@ public class UserController {
 
     @PostMapping("register")
     public Result register(String uname, String password, String phone, String email, String birthday) {
-        if (userService.equalsUName(uname) != 0) {
-            return new ResultTools().fail(201, "用户名重复", null);//用户名重复
+        if (userService.equalsUserName(uname) != 0) {
+            return new ResultTools().fail(201, "用户名重复", null);
         } else if (userService.register(uname, password, phone, email, birthday) == 1) {
             return new ResultTools().success("注册成功", null);
         } else {
-            return new ResultTools().fail(203, "系统异常", null);//异常
+            return new ResultTools().fail(203, "系统异常", null);
         }
     }
 
@@ -169,7 +169,7 @@ public class UserController {
             return new ResultTools().fail(201, "参数不完整", null);
         }
 
-        if (userService.equalsUName(uname) != 0) {
+        if (userService.equalsUserName(uname) != 0) {
             return new ResultTools().fail(204, "用户名已存在", null);
         }
         try {

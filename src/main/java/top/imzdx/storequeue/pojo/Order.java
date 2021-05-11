@@ -108,8 +108,8 @@ public class Order implements Serializable {
         return goods_snapshot;
     }
 
-    public void setGoods_snapshot(String goodsSnapshot) {
-        this.goods_snapshot = goodsSnapshot;
+    public void setGoods_snapshot(String goods_snapshot) {
+        this.goods_snapshot = goods_snapshot;
     }
 
 

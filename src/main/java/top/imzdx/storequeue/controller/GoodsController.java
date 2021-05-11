@@ -95,10 +95,17 @@ public class GoodsController {
         }
     }
 
+    static boolean notNull(String gid, String gname, String price, String category, String total, String stock, String state, String pic) {
+        if (gid == null || gname == null || price == null || category == null || total == null || stock == null || state == null || pic == null) {
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("edit")
     @AdminRequired
     public Result editGoods(String gid, String gname, String price, String category, String total, String stock, String state, String pic, String details, String remarks) {
-        if (gid == null || gname == null || price == null || category == null || total == null || stock == null || state == null || pic == null) {
+        if (notNull(gid, gname, price, category, total, stock, state, pic)) {
             return new ResultTools().fail(201, "参数不完整", null);
         }
         try {
@@ -108,14 +115,13 @@ public class GoodsController {
                 return new ResultTools().fail(202, "与原信息一样 无需修改", null);
             }
         } catch (NumberFormatException e) {
-            return  new ResultTools().fail(203,"参数格式错误",null);
+            return new ResultTools().fail(203, "参数格式错误", null);
         }
     }
 
-
     @LoginRequired
     @GetMapping("{gid}/buy")
-    public Result buy(@PathVariable String gid, HttpSession session){
+    public Result buy(@PathVariable String gid, HttpSession session) {
         try {
             int i = goodsService.buyCreate(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
             if (i == 1) {
@@ -130,7 +136,3 @@ public class GoodsController {
         }
     }
 }
-
-
-
-
