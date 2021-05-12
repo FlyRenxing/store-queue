@@ -58,7 +58,7 @@ public class OrderService {
 
         order.setUid(user.getUid());
         order.setGid(goods.getGid());
-
+        order.setSid(seckill.getSid());
         String goodsSnapshot = JSON.toJSONString(goods);
         order.setGoods_snapshot(goodsSnapshot);
 

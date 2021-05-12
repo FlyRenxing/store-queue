@@ -17,11 +17,15 @@ public class Order implements Serializable {
     private double pay;
     private String goods_snapshot;
     private String user_snapshot;
+    private long sid;
 
     @Override
     public String toString() {
         return "Order{" +
-                "oid=" + oid +
+                "STATE_NOPAY=" + STATE_NOPAY +
+                ", STATE_ISPAY=" + STATE_ISPAY +
+                ", STATE_CLOSE=" + STATE_CLOSE +
+                ", oid=" + oid +
                 ", uid=" + uid +
                 ", gid=" + gid +
                 ", ordertime='" + ordertime + '\'' +
@@ -31,7 +35,16 @@ public class Order implements Serializable {
                 ", pay=" + pay +
                 ", goods_snapshot='" + goods_snapshot + '\'' +
                 ", user_snapshot='" + user_snapshot + '\'' +
+                ", sid=" + sid +
                 '}';
+    }
+
+    public long getSid() {
+        return sid;
+    }
+
+    public void setSid(long sid) {
+        this.sid = sid;
     }
 
     public double getDiscount() {
