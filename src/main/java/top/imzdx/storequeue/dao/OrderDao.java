@@ -7,7 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface OrderDao {
-    @Insert("INSERT INTO `order`(`uid`, `gid`, `ordertime`,`state`, `price`,`discount`,`pay`, `goods_snapshot`, `user_snapshot`,`sid`) VALUES (#{order.uid}, #{order.gid}, now(),#{order.state}, #{order.price}, #{order.discount}, #{order.pay}, #{order.goods_snapshot}, #{order.user_snapshot}, #{order.sid})")
+    @Insert({
+            "<script> " +
+                    "INSERT INTO `order`(`uid`, `gid`, `ordertime`,`state`, `price`,`discount`,`pay`, `goods_snapshot`, `user_snapshot`,`sid`) " +
+                    "VALUES (#{order.uid}, #{order.gid}, now(),#{order.state}, #{order.price}, #{order.discount}, #{order.pay}, #{order.goods_snapshot}, #{order.user_snapshot}, " +
+                    "<if test='order.sid==0'>null</if>" +
+                    "<if test='order.sid!=0'>#{order.sid}</if>" +
+                    ")" +
+                    "</script>"
+    })
     int insertOrder(@Param("order") Order order);
 
     @Select("SELECT * FROM `order`")
