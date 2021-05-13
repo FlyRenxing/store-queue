@@ -1,12 +1,19 @@
 package top.imzdx.storequeue.controller;
 
 
+import com.sun.deploy.net.HttpResponse;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.imzdx.storequeue.interceptor.AdminRequired;
 import top.imzdx.storequeue.result.Result;
 import top.imzdx.storequeue.result.ResultTools;
 import top.imzdx.storequeue.service.SeckillService;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @RestController
 @RequestMapping("/seckill")
@@ -36,12 +43,40 @@ public class SeckillController {
             return new ResultTools().fail(201, "gid错误", sid);
         }
     }
+    @AdminRequired
+        @GetMapping("{sid}/seckillOrderList")
+    public String getSeckillOrderList(HttpServletResponse response, @PathVariable int sid) {
+        HSSFWorkbook workbook = seckillService.getSeckillOrderList(sid);
+
+        // 获取输出流
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 重置输出流
+        response.reset();
+        // 设定输出文件头
+        response.setHeader("Content-disposition",
+                "attachment; filename=" + "biu" + ".xls");
+        // 定义输出类型
+        response.setContentType("application/msexcel");
+        try {
+            workbook.write(os);
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
 
     @AdminRequired
     @PostMapping("edit")
     public Result editSeckill(String sid, String gid, String startday, String starttime, String endday, String endtime, String data, String usecount) {
-        if (GoodsController.notNull(sid, gid, startday, starttime, endday, endtime, data, usecount))
+        if (GoodsController.notNull(sid, gid, startday, starttime, endday, endtime, data, usecount)) {
             return new ResultTools().fail(201, "参数不完整", null);
+        }
         try {
             if (seckillService.editSeckill(Integer.parseInt(sid), Integer.parseInt(gid), startday, starttime, endday, endtime, data, usecount) == 1) {
                 return new ResultTools().success("修改成功", null);

@@ -93,4 +93,8 @@ public class OrderService {
         return 201;
     }
 
+    public List<Order> getPublicListBySid(long sid){
+
+         return orderDao.getOrderBySid(sid);
+    }
 }

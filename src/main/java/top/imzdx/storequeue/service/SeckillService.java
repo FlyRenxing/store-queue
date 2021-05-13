@@ -2,15 +2,23 @@ package top.imzdx.storequeue.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.SeckillDao;
+import top.imzdx.storequeue.pojo.Order;
+import top.imzdx.storequeue.pojo.SeckillOrderList;
 import top.imzdx.storequeue.pojo.Seckill;
+import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.redis.RedisUtil;
+import top.imzdx.storequeue.tools.ExcelUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -19,6 +27,10 @@ public class SeckillService {
     private SeckillDao seckillDao;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private ExcelUtil excelUtil;
 
 
     public int newSeckill(int gid, String startDay, String startTime, String endDay, String endTime, String data) {
@@ -114,6 +126,38 @@ public class SeckillService {
 
         }
         return 1;
+    }
+
+    public HSSFWorkbook getSeckillOrderList(long sid) {
+        //此处为Map内的List
+        List<SeckillOrderList> orders = new ArrayList<SeckillOrderList>();
+        List<Order> orderList = orderService.getPublicListBySid(sid);
+        Map<String, List<String>> map = new HashMap<String, List<String>>(orderList.size());
+
+
+            SeckillOrderList order = new SeckillOrderList();
+            User user = null;
+            StringBuffer name = new StringBuffer();
+            StringBuffer phone = new StringBuffer();
+            double discount =0;
+            for (int i = 0; i < orderList.size(); i++) {
+                JSONObject json = JSONObject.parseObject(orderList.get(i).getUser_snapshot());
+                user = JSONObject.toJavaObject(json,User.class);
+                name.setLength(0);
+                name = name.append(user.getUname());
+                phone.setLength(0);
+                phone = phone.append(user.getPhone());
+                discount = orderList.get(i).getDiscount();
+                ArrayList<String> members = new ArrayList<String>();
+                members.add(name + "");
+                members.add(phone+"");
+                members.add(discount + "");
+                map.put(orderList.get(i).getOid() + "", members);
+            }
+        String[] strArray = {"订单ID", "客户名称", "客户电话", "折扣"};
+
+        HSSFWorkbook wb = excelUtil.createExcel(map,strArray);
+        return wb;
     }
 
 }

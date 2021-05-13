@@ -29,4 +29,7 @@ public interface OrderDao {
 
     @Update("update `order` set oid=#{order.oid},uid=#{order.uid},gid=#{order.gid},ordertime=#{order.ordertime},state=#{order.state},price=#{order.price},goods_snapshot=#{order.goods_snapshot},user_snapshot=#{order.user_snapshot} where oid=#{order.oid}")
     int update(@Param("order") Order order);
+
+    @Select("SELECT * FROM `order` WHERE sid = #{sid}")
+    List<Order> getOrderBySid(long sid);
 }
