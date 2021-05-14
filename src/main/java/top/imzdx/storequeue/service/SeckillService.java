@@ -135,7 +135,7 @@ public class SeckillService {
             //先放到seckill表里
             phone.setLength(0);
             phone.append(user.getPhone());
-            phone.replace(3,6,"****");
+            phone.replace(3,7,"****");
             SeckillOrderList seckillOrderList = new SeckillOrderList(user.getUname(), phone.toString(), order.getDiscount());
             //把seckill表添加到seckill列表里面去
             seckillOrderLists.add(seckillOrderList);
