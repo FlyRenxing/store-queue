@@ -3,6 +3,7 @@ package top.imzdx.storequeue.dao;
 import org.apache.ibatis.annotations.*;
 import top.imzdx.storequeue.pojo.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -31,5 +32,5 @@ public interface OrderDao {
     int update(@Param("order") Order order);
 
     @Select("SELECT * FROM `order` WHERE sid = #{sid}")
-    List<Order> getOrderBySid(long sid);
+    ArrayList<Order> getOrderBySid(long sid);
 }

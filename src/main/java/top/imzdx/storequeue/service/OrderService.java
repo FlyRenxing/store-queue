@@ -9,6 +9,7 @@ import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Goods;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,8 +94,8 @@ public class OrderService {
         return 201;
     }
 
-    public List<Order> getPublicListBySid(long sid){
+    public ArrayList<Order> getOrderBySid(long sid) {
 
-         return orderDao.getOrderBySid(sid);
+        return orderDao.getOrderBySid(sid);
     }
 }
