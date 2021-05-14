@@ -127,12 +127,16 @@ public class SeckillService {
         ArrayList<SeckillOrderList> seckillOrderLists = new ArrayList<>();
         ArrayList<Order> orders = orderService.getOrderBySid(sid);
         //保留4个字段
+        StringBuffer phone=new StringBuffer();
         for (int i = 0; i < orders.size(); i++) {
             Order order = orders.get(i);
             //获得用户快照，取出name和phone
             User user = JSONObject.parseObject(order.getUser_snapshot(), User.class);
             //先放到seckill表里
-            SeckillOrderList seckillOrderList = new SeckillOrderList(user.getUname(), user.getPhone(), order.getDiscount());
+            phone.setLength(0);
+            phone.append(user.getPhone());
+            phone.replace(3,6,"****");
+            SeckillOrderList seckillOrderList = new SeckillOrderList(user.getUname(), phone.toString(), order.getDiscount());
             //把seckill表添加到seckill列表里面去
             seckillOrderLists.add(seckillOrderList);
         }
