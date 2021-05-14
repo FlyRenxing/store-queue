@@ -39,7 +39,6 @@ public class SeckillController {
         }
     }
 
-    @AdminRequired
     @GetMapping("{sid}/seckillOrderList")
     public Result getSeckillOrderList(@PathVariable long sid) {
 
