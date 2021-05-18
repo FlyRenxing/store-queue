@@ -119,6 +119,7 @@ public class GoodsService {
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
+        //此处为第一次拦截，并不代表一定有库存！
         if (!hasStock(getGoods(gid))) {
             return NO_STOCK;
         }
