@@ -8,6 +8,7 @@ import top.imzdx.storequeue.pojo.Order;
 import top.imzdx.storequeue.pojo.Seckill;
 import top.imzdx.storequeue.pojo.User;
 import top.imzdx.storequeue.pojo.goods.Goods;
+import top.imzdx.storequeue.redis.RedisUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,7 @@ public class OrderService {
     @Autowired
     private SeckillService seckillService;
     @Autowired
-    private GoodsService goodsService;
-    @Autowired
-    private UserService userService;
+    private RedisUtil redisUtil;
 
     public int insertOrder(Order order) {
         return orderDao.insertOrder(order);
@@ -97,5 +96,9 @@ public class OrderService {
     public ArrayList<Order> getOrderBySid(long sid) {
 
         return orderDao.getOrderBySid(sid);
+    }
+
+    public int getUuidState(long uuid) {
+        return (int) redisUtil.get(String.valueOf(uuid));
     }
 }

@@ -114,17 +114,16 @@ public class GoodsService {
         return goodsDao.updateGoods(goods);
     }
 
-    public int buyCreate(long gid, long uid) {
+    public long buyCreate(long gid, long uid) {
         //long[] meg = new long[]{gid, uid};
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
-        //此处为第一次拦截，并不代表一定有库存！
-        if (!hasStock(getGoods(gid))) {
-            return NO_STOCK;
-        }
+        //此处认为uid+gid+系统当前时间戳为唯一标识
+        long uuid = Long.parseLong(new StringBuilder().append(uid).append(gid).append(System.currentTimeMillis()).toString());
+        meg.add(uuid);
         producer.sendMsg("buy.create", meg.toString());
-        return 1;
+        return uuid;
     }
 
     public Goods subStock(Goods goods, int i) {

@@ -1,11 +1,16 @@
 package top.imzdx.storequeue.pojo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 public class Order implements Serializable {
+    @JsonIgnore
     final public int STATE_NOPAY = 0;
+    @JsonIgnore
     final public int STATE_ISPAY = 1;
+    @JsonIgnore
     final public int STATE_CLOSE = 2;
     private long oid;
     private long uid;

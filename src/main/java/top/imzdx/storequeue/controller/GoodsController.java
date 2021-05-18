@@ -66,12 +66,12 @@ public class GoodsController {
     }
 
     @GetMapping("{gid}/seckill")//根据商品id获得该商品的秒杀活动
-    public Result getSeckillByGid(@PathVariable String gid){
+    public Result getSeckillByGid(@PathVariable String gid) {
         Seckill i = goodsService.getSeckillByGid(Integer.parseInt(gid));
-        if (i!=null){
-            return new ResultTools().success("获取成功",i);
-        }else{
-            return new ResultTools().fail(201,"获取失败",i);
+        if (i != null) {
+            return new ResultTools().success("获取成功", i);
+        } else {
+            return new ResultTools().fail(201, "获取失败", i);
         }
     }
 
@@ -123,14 +123,8 @@ public class GoodsController {
     @GetMapping("{gid}/buy")
     public Result buy(@PathVariable String gid, HttpSession session) {
         try {
-            int i = goodsService.buyCreate(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
-            if (i == 1) {
-                return new ResultTools().success("您的购买请求已提交，正在排队中，请稍后在'我的-订单列表'内查询您的订单。", null);
-            } else if (i == goodsService.NO_STOCK) {
-                return new ResultTools().fail(203, "无库存", null);
-            } else {
-                return new ResultTools().fail(202, "购买失败", null);
-            }
+            long uuid = goodsService.buyCreate(Long.parseLong(gid), ((User) session.getAttribute("user")).getUid());
+            return new ResultTools().success("您的购买请求已提交，正在排队中，请稍后在'我的-订单列表'内查询您的订单。", uuid);
         } catch (NumberFormatException e) {
             return new ResultTools().fail(201, "参数错误", null);
         }

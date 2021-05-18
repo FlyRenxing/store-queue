@@ -62,4 +62,10 @@ public class OrderController {
         }
     }
 
+    @LoginRequired
+    @GetMapping("{uuid}/getState")
+    public Result getUuidState(@PathVariable long uuid) {
+        return new ResultTools().success("获取成功", orderService.getUuidState(uuid));
+    }
+
 }
