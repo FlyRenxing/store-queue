@@ -1,10 +1,22 @@
-# 工程简介
+## 前端所用技术
 
-这是一个比赛项目
 
-B3-高并发条件下消息队列的设计与实现
 
-http://www.cnsoftbei.com/plus/view.php?aid=591
+- html +css +javascript ES6
 
-# 延伸阅读
+- Vue+Vue Router+VueX+Axios +Node.js+webpack
+
+
+
+## 后端所用技术
+
+- SpringBoot 
+- Mysql
+- JDBC+Mybatis
+- Redis+Redisson
+- FastJSON
+- FlashMQ
+-  Tomcat 
+-  Nginx
+- Maven 
 
