@@ -49,8 +49,6 @@ public class BuyService {
         JSONArray array = JSONArray.parseArray(meg);
         long uid = array.getLong(1);
         long uuid = array.getLong(2);
-        //在redis内存入uuid以供前端轮询订单状态
-        redisUtil.set(String.valueOf(uuid), ORDER_CREATE_STATE_WAITING);
         User user = userService.findUserByUid(uid);
         array.set(1, user);
         producer.sendMsg("buy.stock", array.toString());
