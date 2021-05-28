@@ -122,6 +122,8 @@ public class GoodsService {
         //此处认为uid+gid+系统当前时间戳为唯一标识
         long uuid = Long.parseLong(new StringBuilder().append(uid).append(gid).append(System.currentTimeMillis()).toString());
         meg.add(uuid);
+        //在redis内存入uuid以供前端轮询订单状态
+        redisUtil.set(String.valueOf(uuid), ORDER_CREATE_STATE_WAITING);
         producer.sendMsg("buy.create", meg.toString());
         return uuid;
     }
