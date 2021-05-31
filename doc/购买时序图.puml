@@ -1,0 +1,210 @@
+@startuml
+title
+__购买商品__ **时序图**
+注：每个分隔段内方法均采用异步调用
+end title
+skinparam backgroundColor #EEEBDC
+'skinparam handwritten true 仿手写太花了...
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+ParticipantFontName Impact
+ParticipantFontSize 17
+ParticipantFontColor #A9DCDF
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+== GoodsService.buyCreate() ==
+participant Actor
+Actor -> GoodsService : buyCreate
+activate GoodsService
+GoodsService -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> Producer : sendMsg
+activate Producer
+Producer --> GoodsService
+deactivate Producer
+return
+== BuyService.buy() ==
+participant Actor
+Actor -> BuyService : buy
+activate BuyService
+BuyService -> UserService : findUserByUid
+activate UserService
+UserService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> UserService
+deactivate RedisUtil
+opt User==null
+UserService -> UserDao : getUsreByUid
+activate UserDao
+UserDao --> UserService
+deactivate UserDao
+UserService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> UserService
+deactivate RedisUtil
+UserService --> BuyService
+deactivate UserService
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+end
+return
+== BuyService.buyStock() ==
+participant Actor
+Actor -> BuyService : buyStock
+activate BuyService
+BuyService -> GoodsService : getGoods
+activate GoodsService
+GoodsService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+opt Goods==null
+GoodsService -> GoodsDao : getGoodsByGid
+activate GoodsDao
+GoodsDao --> GoodsService
+deactivate GoodsDao
+GoodsService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+end
+GoodsService --> BuyService
+deactivate GoodsService
+BuyService -> GoodsService : hasStock
+activate GoodsService
+GoodsService --> BuyService
+deactivate GoodsService
+alt hasStock()=>true
+BuyService -> GoodsService : subStock
+activate GoodsService
+GoodsService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> GoodsDao : updateGoods
+activate GoodsDao
+GoodsDao --> GoodsService
+deactivate GoodsDao
+GoodsService --> BuyService
+deactivate GoodsService
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+else
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+end
+return
+== BuyService.buySeckill() ==
+opt hasSeckill
+participant Actor
+Actor -> BuyService : buySeckill
+activate BuyService
+BuyService -> SeckillService : getSeckillByGid
+activate SeckillService
+SeckillService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> SeckillService
+deactivate RedisUtil
+opt Seckill==null
+SeckillService -> SeckillDao : selectSeckillByGid
+activate SeckillDao
+SeckillDao --> SeckillService
+deactivate SeckillDao
+SeckillService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> SeckillService
+deactivate RedisUtil
+end
+SeckillService --> BuyService
+deactivate SeckillService
+BuyService -> SeckillService : editSeckill
+activate SeckillService
+SeckillService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> SeckillService
+deactivate RedisUtil
+SeckillService -> SeckillDao : updateSeckill
+activate SeckillDao
+SeckillDao --> SeckillService
+deactivate SeckillDao
+SeckillService --> BuyService
+deactivate SeckillService
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+return
+end
+== BuyService.buyOrder() ==
+participant Actor
+Actor -> BuyService : buyOrder
+activate BuyService
+alt MessageHasSeckill
+BuyService -> OrderService : create
+activate OrderService
+OrderService -> SeckillService : isSeckillTime
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService -> SeckillService : isSeckillRange
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService -> SeckillService : getRangeDiscount
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService --> BuyService
+deactivate OrderService
+else
+BuyService -> OrderService : create
+activate OrderService
+OrderService --> BuyService
+deactivate OrderService
+end
+BuyService -> RedisUtil : set
+activate RedisUtil
+RedisUtil -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> RedisUtil
+deactivate RedisUtil
+RedisUtil --> BuyService
+deactivate RedisUtil
+BuyService -> RedisUtil : set
+activate RedisUtil
+RedisUtil -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> RedisUtil
+deactivate RedisUtil
+RedisUtil --> BuyService
+deactivate RedisUtil
+BuyService -> OrderService : insertOrder
+activate OrderService
+OrderService -> OrderDao : insertOrder
+activate OrderDao
+OrderDao --> OrderService
+deactivate OrderDao
+OrderService --> BuyService
+deactivate OrderService
+return
+@enduml
