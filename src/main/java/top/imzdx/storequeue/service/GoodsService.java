@@ -49,24 +49,14 @@ public class GoodsService {
 
     public Goods getGoods(long gid) {
         Goods goods = (Goods) redisUtil.hget("goods", Long.toString(gid));
-        if (goods != null) {
-            return goods;
-        } else {
+        if (goods == null) {
             goods = goodsDao.getGoodsByGid(gid);
             redisUtil.hset("goods", Long.toString(gid), goods);
-            if (goods != null) {
-                if (goods.getState() == 1) {
-                    return null;
-                }
-                return goods;
+            if (goods != null && goods.getState() == 1) {
+                return null;
             }
-            return null;
-//        Goods good = goodsDao.getGoodsByGid(gid);
-//        if (good.getState() == 1) {
-//            return null;
-//        }
-//        return good;
         }
+        return goods;
     }
 
     public Seckill getSeckillByGid(int gid) {
@@ -114,6 +104,10 @@ public class GoodsService {
 
     public long buyCreate(long gid, long uid) {
         //long[] meg = new long[]{gid, uid};
+        Goods goods = getGoods(gid);
+        if (goods == null && goods.getState() != 1) {
+            return -1;
+        }
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
