@@ -71,7 +71,7 @@
         <dependency>
             <groupId>top.imzdx</groupId>
             <artifactId>flashmq</artifactId>
-            <version>0.3.2-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
