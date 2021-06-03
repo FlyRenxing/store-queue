@@ -94,9 +94,13 @@ public class OrderService {
     }
 
     public ArrayList<Order> getOrderBySid(long sid) {
-
         return orderDao.getOrderBySid(sid);
     }
+
+    public ArrayList<Order> getOrderBySidLimitLine(long sid, int line) {
+        return orderDao.getOrderBySidLimitLine(sid, line);
+    }
+
 
     public int getUuidState(long uuid) {
         return (int) redisUtil.get(String.valueOf(uuid));

@@ -125,7 +125,7 @@ public class SeckillService {
     public List<SeckillOrderList> getSeckillOrderList(long sid) {
         //根据sid返回了一系列使用了该秒杀活动的有序的订单
         ArrayList<SeckillOrderList> seckillOrderLists = new ArrayList<>();
-        ArrayList<Order> orders = orderService.getOrderBySid(sid);
+        ArrayList<Order> orders = orderService.getOrderBySidLimitLine(sid, 1000);
         //保留4个字段
         StringBuffer phone=new StringBuffer();
         for (int i = 0; i < orders.size(); i++) {

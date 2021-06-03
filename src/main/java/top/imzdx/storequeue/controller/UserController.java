@@ -1,8 +1,5 @@
 package top.imzdx.storequeue.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -107,16 +104,8 @@ public class UserController {
 
     @GetMapping("test2")
     public Result test() {
-        String str = "{'data':[{'a':1,'b':2},{'a':3,'b':4}]}";
-        JSONObject json = JSON.parseObject(str);
-        JSONArray a = json.getJSONArray("data");
-        // 遍历JSONArray
-        for (Object o : a) {
-            JSONObject next = (JSONObject) o;
-            System.err.println(next.getString("a"));
-        }
 
-        return new ResultTools().success("测试成功", "fou");
+        return new ResultTools().success("1", "fou");
     }
 
     //修改用户信息

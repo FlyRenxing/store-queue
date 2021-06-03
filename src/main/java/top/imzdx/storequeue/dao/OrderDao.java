@@ -33,4 +33,7 @@ public interface OrderDao {
 
     @Select("SELECT * FROM `order` WHERE sid = #{sid}")
     ArrayList<Order> getOrderBySid(long sid);
+
+    @Select("SELECT * FROM `order` WHERE sid = #{sid} Limit #{line}")
+    ArrayList<Order> getOrderBySidLimitLine(@Param("sid") long sid, @Param("line") int line);
 }
