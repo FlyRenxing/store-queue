@@ -1,6 +1,7 @@
 package top.imzdx.storequeue.service;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.OrderDao;
@@ -27,6 +28,11 @@ public class OrderService {
     }
 
     public List<Order> getAllOrder() {
+        return orderDao.getAllOrder();
+    }
+
+    public List<Order> getOrderByPageInfo(int pageNum, int pageSize, String pageSort) {
+        PageHelper.startPage(pageNum, pageSize, pageSort);
         return orderDao.getAllOrder();
     }
 
@@ -104,5 +110,9 @@ public class OrderService {
 
     public int getUuidState(long uuid) {
         return (int) redisUtil.get(String.valueOf(uuid));
+    }
+
+    public long getOrderCountByAll() {
+        return orderDao.getCountByAll();
     }
 }

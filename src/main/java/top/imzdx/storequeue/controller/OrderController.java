@@ -14,6 +14,7 @@ import top.imzdx.storequeue.service.OrderService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -32,6 +33,19 @@ public class OrderController {
     @GetMapping("all")
     public Result getAllOrder() {
         return new ResultTools().success("获取成功", orderService.getAllOrder());
+    }
+
+    @AdminRequired
+    @GetMapping("all/page")
+    public Result getOrderByPageInfo(int pageNum, int pageSize, String pageSort) {
+        List<Order> list = orderService.getOrderByPageInfo(pageNum, pageSize, pageSort);
+        return new ResultTools().success("获取成功", list);
+    }
+
+    @AdminRequired
+    @GetMapping("allCount")
+    public Result getOrderCountByAll() {
+        return new ResultTools().success("获取成功", orderService.getOrderCountByAll());
     }
 
     @LoginRequired

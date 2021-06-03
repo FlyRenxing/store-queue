@@ -36,4 +36,7 @@ public interface OrderDao {
 
     @Select("SELECT * FROM `order` WHERE sid = #{sid} Limit #{line}")
     ArrayList<Order> getOrderBySidLimitLine(@Param("sid") long sid, @Param("line") int line);
+
+    @Select("SELECT COUNT(1) FROM `order`")
+    long getCountByAll();
 }
