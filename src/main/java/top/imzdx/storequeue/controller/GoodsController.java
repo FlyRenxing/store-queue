@@ -123,11 +123,11 @@ public class GoodsController {
     @GetMapping("{gid}/buy")
     public Result buy(@PathVariable long gid, HttpSession session) {
         try {
-            long uuid = goodsService.buyCreate(gid, ((User) session.getAttribute("user")).getUid());
-            if (uuid == -1) {
+            long time = goodsService.buyCreate(gid, ((User) session.getAttribute("user")).getUid());
+            if (time == -1) {
                 return new ResultTools().fail(202, "商品不存在", null);
             }
-            return new ResultTools().success("您的购买请求已提交，正在排队中，请稍后在'我的-订单列表'内查询您的订单。", uuid);
+            return new ResultTools().success("您的购买请求已提交，正在排队中，请稍后在'我的-订单列表'内查询您的订单。", time);
         } catch (NumberFormatException e) {
             return new ResultTools().fail(201, "参数错误", null);
         }

@@ -111,13 +111,11 @@ public class GoodsService {
         JSONArray meg = new JSONArray();
         meg.add(gid);
         meg.add(uid);
-        //此处认为uid+gid+系统当前时间戳为唯一标识
-        long uuid = Long.parseLong(new StringBuilder().append(uid).append(gid).append(System.currentTimeMillis()).toString());
-        meg.add(uuid);
-        //在redis内存入uuid以供前端轮询订单状态
-        redisUtil.set(String.valueOf(uuid), buyService.ORDER_CREATE_STATE_WAITING);
+        //此处传入系统当前时间戳,用作生成uuid的字段
+        long time = System.currentTimeMillis();
+        meg.add(time);
         producer.sendMsg("buy.create", meg.toString());
-        return uuid;
+        return time;
     }
 
     public Goods subStock(Goods goods, int i) {

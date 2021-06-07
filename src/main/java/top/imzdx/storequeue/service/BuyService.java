@@ -42,13 +42,18 @@ public class BuyService {
      * <br>
      * 消息体 List=[gid,User,uuid]
      *
-     * @param meg JSONArray.toString=[gid,uid,uuid]
+     * @param meg JSONArray.toString=[gid,uid,time]
      */
     //@JmsListener(destination = "buy.create", containerFactory = "topicListenerContainer")
     public void buy(String meg) {
         JSONArray array = JSONArray.parseArray(meg);
+        long gid = array.getLong(0);
         long uid = array.getLong(1);
-        long uuid = array.getLong(2);
+        long time = array.getLong(2);
+        //在redis内存入uuid以供前端轮询订单状态
+        long uuid = Long.parseLong(new StringBuilder().append(uid).append(gid).append(time).toString());
+        redisUtil.set(String.valueOf(uuid), ORDER_CREATE_STATE_WAITING);
+        array.set(2, uuid);
         User user = userService.findUserByUid(uid);
         array.set(1, user);
         producer.sendMsg("buy.stock", array.toString());
