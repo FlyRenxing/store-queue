@@ -1,0 +1,18 @@
+@startuml
+participant Actor
+Actor -> GoodsService : buyCreate
+activate GoodsService
+GoodsService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> Producer : sendMsg
+activate Producer
+Producer --> GoodsService
+deactivate Producer
+return
+@enduml

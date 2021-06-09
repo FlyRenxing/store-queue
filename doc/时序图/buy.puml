@@ -1,0 +1,26 @@
+@startuml
+participant Actor
+Actor -> BuyService : buy
+activate BuyService
+BuyService -> UserService : findUserByUid
+activate UserService
+UserService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> UserService
+deactivate RedisUtil
+UserService -> UserDao : getUsreByUid
+activate UserDao
+UserDao --> UserService
+deactivate UserDao
+UserService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> UserService
+deactivate RedisUtil
+UserService --> BuyService
+deactivate UserService
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+return
+@enduml

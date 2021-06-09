@@ -1,0 +1,50 @@
+@startuml
+participant Actor
+Actor -> BuyService : buyOrder
+activate BuyService
+BuyService -> OrderService : create
+activate OrderService
+OrderService -> SeckillService : isSeckillTime
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService -> SeckillService : isSeckillRange
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService -> SeckillService : getRangeDiscount
+activate SeckillService
+SeckillService --> OrderService
+deactivate SeckillService
+OrderService --> BuyService
+deactivate OrderService
+BuyService -> OrderService : create
+activate OrderService
+OrderService --> BuyService
+deactivate OrderService
+BuyService -> RedisUtil : set
+activate RedisUtil
+RedisUtil -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> RedisUtil
+deactivate RedisUtil
+RedisUtil --> BuyService
+deactivate RedisUtil
+BuyService -> RedisUtil : set
+activate RedisUtil
+RedisUtil -> RedisUtil : set
+activate RedisUtil
+RedisUtil --> RedisUtil
+deactivate RedisUtil
+RedisUtil --> BuyService
+deactivate RedisUtil
+BuyService -> OrderService : insertOrder
+activate OrderService
+OrderService -> OrderDao : insertOrder
+activate OrderDao
+OrderDao --> OrderService
+deactivate OrderDao
+OrderService --> BuyService
+deactivate OrderService
+return
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+participant Actor
+Actor -> BuyService : buyStock
+activate BuyService
+BuyService -> GoodsService : getGoods
+activate GoodsService
+GoodsService -> RedisUtil : hget
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> GoodsDao : getGoodsByGid
+activate GoodsDao
+GoodsDao --> GoodsService
+deactivate GoodsDao
+GoodsService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService --> BuyService
+deactivate GoodsService
+BuyService -> GoodsService : hasStock
+activate GoodsService
+GoodsService --> BuyService
+deactivate GoodsService
+BuyService -> GoodsService : subStock
+activate GoodsService
+GoodsService -> RedisUtil : hset
+activate RedisUtil
+RedisUtil --> GoodsService
+deactivate RedisUtil
+GoodsService -> GoodsDao : updateGoods
+activate GoodsDao
+GoodsDao --> GoodsService
+deactivate GoodsDao
+GoodsService --> BuyService
+deactivate GoodsService
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+BuyService -> Producer : sendMsg
+activate Producer
+Producer --> BuyService
+deactivate Producer
+return
+@enduml
