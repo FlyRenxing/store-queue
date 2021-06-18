@@ -120,9 +120,10 @@ public class UserController {
 
     /**
      * 修改密码
+     *
      * @param request
-     * @param oldPassword
-     * @param newPassword
+     * @param old_pwd
+     * @param new_pwd
      * @return
      */
     @PostMapping("editpassword")
