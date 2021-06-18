@@ -122,6 +122,11 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 删除商品
+     * @param gid 商品id
+     * @return result结果集
+     */
     @GetMapping("delete")
     @AdminRequired
     public Result deleteGoods(String gid) {
@@ -139,6 +144,20 @@ public class GoodsController {
         return false;
     }
 
+    /**
+     * 修改商品
+     * @param gid
+     * @param gname
+     * @param price
+     * @param category
+     * @param total
+     * @param stock
+     * @param state
+     * @param pic
+     * @param details
+     * @param remarks
+     * @return
+     */
     @PostMapping("edit")
     @AdminRequired
     public Result editGoods(String gid, String gname, String price, String category, String total, String stock, String state, String pic, String details, String remarks) {
