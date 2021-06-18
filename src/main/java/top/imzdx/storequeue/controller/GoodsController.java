@@ -26,36 +26,56 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
-    @Autowired
-    private SeckillDao seckillDao;
-    @Autowired
-    private GoodsDao goodsDao;
 
+    /**
+     * 获得所有商品分类
+     * @return 所有商品分类
+     */
     @GetMapping("category")
     public Result getCategory() {
         return new ResultTools().success("获取成功", goodsService.getCategory());
     }
 
-    @GetMapping("")//根据分类获取商品
+    /**
+     * 根据分类获取所有未下架的商品
+     * @param category 分类id
+     * @return 所有未下架的商品
+     */
+    @GetMapping("")
     public Result getGoods(String category) {
         List<Goods> i = goodsService.getGoods(category);
         return new ResultTools().success("获取成功", i);
     }
 
-    @GetMapping("all")//根据分类获取商品
+    /**
+     *根据分类获取所有商品（包括下架的）
+     * @param category 分类id
+     * @return 所有商品（包括下架的）
+     */
+    @GetMapping("all")
     @AdminRequired
     public Result getAllGoods(String category) {
         List<Goods> i = goodsService.getAllGoods(category);
         return new ResultTools().success("获取成功", i);
     }
 
-    @GetMapping("random")//随机获取商品
+    /**
+     * 随机获取n个未下架的商品
+     * @param n 需要获取的数量
+     * @return 未下架的n个商品
+     */
+    @GetMapping("random")
     public Result getGoodsRandom(int n) {
         List<Goods> i = goodsService.getGoodsRandom(n);
         return new ResultTools().success("获取成功", i);
     }
 
-    @GetMapping("{id}")//根据id获取商品
+    /**
+     *根据商品id获取商品
+     * @param id 商品id
+     * @return 200:指定商品 201:商品不存在
+     */
+    @GetMapping("{id}")
     public Result getGoods(@PathVariable long id) {
         Goods i = goodsService.getGoods(id);
         if (i != null) {
@@ -64,8 +84,12 @@ public class GoodsController {
             return new ResultTools().fail(201, "商品不存在", null);
         }
     }
-
-    @GetMapping("{gid}/seckill")//根据商品id获得该商品的秒杀活动
+    /**
+     * 获得指定商品的秒杀活动
+     * @param gid 商品id
+     * @return
+     */
+    @GetMapping("{gid}/seckill")
     public Result getSeckillByGid(@PathVariable String gid) {
         Seckill i = goodsService.getSeckillByGid(Integer.parseInt(gid));
         if (i != null) {
@@ -75,6 +99,19 @@ public class GoodsController {
         }
     }
 
+    /**
+     *
+     * @param gname
+     * @param price
+     * @param category
+     * @param total
+     * @param stock
+     * @param state
+     * @param pic
+     * @param details
+     * @param remarks
+     * @return
+     */
     @PostMapping("new")
     @AdminRequired
     public Result newGoods(String gname, double price, int category, int total, int stock, int state, String pic, String details, String remarks) {
@@ -119,6 +156,12 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 一个购买方法
+     * @param gid 物品id
+     * @param session 登录状态
+     * @return
+     */
     @LoginRequired
     @GetMapping("{gid}/buy")
     public Result buy(@PathVariable long gid, HttpSession session) {

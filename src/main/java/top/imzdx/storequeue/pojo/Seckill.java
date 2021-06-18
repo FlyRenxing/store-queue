@@ -7,7 +7,6 @@ public class Seckill implements Serializable {
 
   private long sid;
   private long gid;
-  private String gname;
   private String startday;
   private String starttime;
   private String endday;
@@ -28,15 +27,6 @@ public class Seckill implements Serializable {
             ", usecount=" + usecount +
             '}';
   }
-
-  public String getGname() {
-    return gname;
-  }
-
-  public void setGname(String gname) {
-    this.gname = gname;
-  }
-
   public long getUsecount() {
     return usecount;
   }
