@@ -26,12 +26,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 登录方法
+     * @param request
+     * @param uname
+     * @param password
+     * @return
+     */
     @PostMapping("login")
     public Result login(HttpServletRequest request, String uname, String password) {
         User user = userService.login(uname, password);
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-//刘思铭
         if (user != null) {
             user.setPassword("***");
             return new ResultTools().success("登陆成功", user);
@@ -41,6 +47,15 @@ public class UserController {
 
     }
 
+    /**
+     * 注册方法
+     * @param uname
+     * @param password
+     * @param phone
+     * @param email
+     * @param birthday
+     * @return
+     */
     @PostMapping("register")
     public Result register(String uname, String password, String phone, String email, String birthday) {
         if (userService.equalsUserName(uname) != 0) {
@@ -52,6 +67,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 查询当前用户信息
+     * @param request
+     * @return
+     */
     @GetMapping("profile")
     @LoginRequired
     public Result look(HttpServletRequest request) {
@@ -61,6 +81,11 @@ public class UserController {
         return new ResultTools().success("获取成功", user);
     }
 
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
     @GetMapping("logout")
     public Result logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -68,6 +93,14 @@ public class UserController {
         return new ResultTools().success("退出成功", null);
     }
 
+    /**
+     * 忘记密码
+     * @param uname
+     * @param phone
+     * @param email
+     * @param newpassword
+     * @return
+     */
     @PostMapping("forgetpassword")
     public Result forgetPassword(String uname, String phone, String email, String newpassword) {
         int code = userService.changePassword(uname, newpassword, phone, email);
@@ -85,6 +118,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 修改密码
+     * @param request
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
     @PostMapping("editpassword")
     @LoginRequired
     public Result editPassword(HttpServletRequest request, String oldPassword, String newPassword) {
@@ -102,13 +142,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("test2")
-    public Result test() {
-
-        return new ResultTools().success("1", "fou");
-    }
-
-    //修改用户信息
+    /**
+     * 修改用户信息
+     * @param request
+     * @param phone
+     * @param email
+     * @param birthday
+     * @return
+     */
     @LoginRequired
     @PostMapping("modifyuserinfo")
     public Result modifyUserInfo(HttpServletRequest request, String phone, String email, String birthday) {
@@ -127,12 +168,28 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取所有用户
+     * @return
+     */
     @GetMapping("all")
     @AdminRequired
     public Result getAllUser() {
         return new ResultTools().success("获取成功", userService.getAllUser());
     }
 
+    /**
+     * 修改用户信息
+     * @param uid
+     * @param uname
+     * @param password
+     * @param phone
+     * @param email
+     * @param birthday
+     * @param type
+     * @param logo
+     * @return
+     */
     @PostMapping("edit")
     @AdminRequired
     public Result editUser(String uid, String uname, String password, String phone, String email, String birthday, String type, String logo) {
@@ -151,6 +208,17 @@ public class UserController {
 
     }
 
+    /**
+     * 新增用户
+     * @param uname
+     * @param password
+     * @param phone
+     * @param email
+     * @param birthday
+     * @param type
+     * @param logo
+     * @return
+     */
     @PostMapping("new")
     @AdminRequired
     public Result newUser(String uname, String password, String phone, String email, String birthday, String type, String logo) {
@@ -172,11 +240,16 @@ public class UserController {
         }
     }
 
+    /**
+     * 删除用户
+     * @param uid
+     * @return
+     */
     @GetMapping("delete")
     @AdminRequired
-    public Result deleteUser(String uid) {
+    public Result deleteUser(long uid) {
         try {
-            if (userService.deleteUser(Long.parseLong(uid)) == 1) {
+            if (userService.deleteUser(uid) == 1) {
                 return new ResultTools().success("删除成功", null);
             } else {
                 return new ResultTools().fail(201, "删除失败", null);
