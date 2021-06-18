@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>top.imzdx.storequeue.result</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.result.Result</node>
+    <node x="0.0" y="218.0">top.imzdx.storequeue.result.ResultTools</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="65.5" y="52.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>属性</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

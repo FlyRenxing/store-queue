@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Renxing/Desktop/store-queue/src/main/java/top/imzdx/storequeue/service</OriginalElement>
+  <nodes>
+    <node x="499.0" y="0.0">top.imzdx.storequeue.service.OrderService</node>
+    <node x="0.0" y="563.0">top.imzdx.storequeue.service.SeckillService</node>
+    <node x="896.0" y="0.0">top.imzdx.storequeue.service.BuyService</node>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.service.GoodsService</node>
+    <node x="490.0" y="563.0">top.imzdx.storequeue.service.UserService</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="622.5" y="325.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>字段</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Renxing/Desktop/store-queue/src/main/java/top/imzdx/storequeue</OriginalElement>
+  <nodes>
+    <node x="644.0" y="2230.0">top.imzdx.storequeue.interceptor.AdminRequired</node>
+    <node x="964.0" y="1311.0">top.imzdx.storequeue.controller.OrderController</node>
+    <node x="0.0" y="1667.0">top.imzdx.storequeue.controller.SeckillController</node>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.redis.RedisUtil</node>
+    <node x="536.0" y="2081.0">top.imzdx.storequeue.result.ResultTools</node>
+    <node x="325.0" y="1909.0">top.imzdx.storequeue.interceptor.AdminInterceptor</node>
+    <node x="1748.0" y="1667.0">top.imzdx.storequeue.dao.SeckillDao</node>
+    <node x="775.0" y="1311.0">top.imzdx.storequeue.pojo.Seckill</node>
+    <node x="0.0" y="1909.0">top.imzdx.storequeue.mq.MqContainerFactory</node>
+    <node x="317.0" y="2081.0">top.imzdx.storequeue.controller.AdminController</node>
+    <node x="0.0" y="2081.0">top.imzdx.storequeue.mq.Producer</node>
+    <node x="528.0" y="1667.0">top.imzdx.storequeue.mq.MqListener</node>
+    <node x="1091.0" y="1667.0">top.imzdx.storequeue.result.Result</node>
+    <node x="390.0" y="0.0">top.imzdx.storequeue.service.GoodsService</node>
+    <node x="385.0" y="2230.0">top.imzdx.storequeue.StoreQueueApplication</node>
+    <node x="979.0" y="2081.0">top.imzdx.storequeue.redis.RedisConfig</node>
+    <node x="1495.0" y="908.0">top.imzdx.storequeue.controller.GoodsController</node>
+    <node x="378.0" y="1311.0">top.imzdx.storequeue.dao.UserDao</node>
+    <node x="0.0" y="2230.0">top.imzdx.storequeue.tools.GoodsHandle</node>
+    <node x="1569.0" y="1667.0">top.imzdx.storequeue.pojo.Dashboard</node>
+    <node x="889.0" y="0.0">top.imzdx.storequeue.pojo.Order</node>
+    <node x="770.0" y="1667.0">top.imzdx.storequeue.pojo.SeckillOrderList</node>
+    <node x="802.0" y="2081.0">top.imzdx.storequeue.pojo.goods.Category</node>
+    <node x="1303.0" y="1311.0">top.imzdx.storequeue.dao.OrderDao</node>
+    <node x="1118.0" y="0.0">top.imzdx.storequeue.service.OrderService</node>
+    <node x="1497.0" y="2081.0">top.imzdx.storequeue.tools.ExcelUtil</node>
+    <node x="1515.0" y="0.0">top.imzdx.storequeue.service.BuyService</node>
+    <node x="1700.0" y="1311.0">top.imzdx.storequeue.dao.GoodsDao</node>
+    <node x="1335.0" y="1667.0">top.imzdx.storequeue.redis.RedissonConfig</node>
+    <node x="914.0" y="1909.0">top.imzdx.storequeue.interceptor.LoginInterceptor</node>
+    <node x="1843.0" y="1909.0">top.imzdx.storequeue.dao.AdminDao</node>
+    <node x="0.0" y="908.0">top.imzdx.storequeue.controller.UserController</node>
+    <node x="1503.0" y="1909.0">top.imzdx.storequeue.config.WebConfigurer</node>
+    <node x="189.0" y="1311.0">top.imzdx.storequeue.pojo.User</node>
+    <node x="851.0" y="2230.0">top.imzdx.storequeue.interceptor.LoginRequired</node>
+    <node x="518.0" y="908.0">top.imzdx.storequeue.service.SeckillService</node>
+    <node x="1008.0" y="908.0">top.imzdx.storequeue.service.UserService</node>
+    <node x="0.0" y="1311.0">top.imzdx.storequeue.pojo.goods.Goods</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="0.4" showDependencies="false" x="931.75" y="866.25" />
+  <SelectedNodes />
+  <Categories>
+    <Category>字段</Category>
+    <Category>属性</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

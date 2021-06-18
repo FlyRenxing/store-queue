@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>top.imzdx.storequeue.pojo</OriginalElement>
+  <nodes>
+    <node x="0.0" y="424.0">top.imzdx.storequeue.pojo.Seckill</node>
+    <node x="409.0" y="0.0">top.imzdx.storequeue.pojo.User</node>
+    <node x="186.0" y="424.0">top.imzdx.storequeue.pojo.SeckillOrderList</node>
+    <node x="0.0" y="710.0">top.imzdx.storequeue.pojo.goods.Category</node>
+    <node x="507.0" y="424.0">top.imzdx.storequeue.pojo.Dashboard</node>
+    <node x="229.0" y="0.0">top.imzdx.storequeue.pojo.goods.Goods</node>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.pojo.Order</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="145.5" y="334.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>字段</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>top.imzdx.storequeue.controller</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.controller.UserController</node>
+    <node x="613.0" y="378.0">top.imzdx.storequeue.controller.OrderController</node>
+    <node x="528.0" y="733.0">top.imzdx.storequeue.controller.AdminController</node>
+    <node x="0.0" y="733.0">top.imzdx.storequeue.controller.SeckillController</node>
+    <node x="0.0" y="378.0">top.imzdx.storequeue.controller.GoodsController</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="373.5" y="580.5" />
+  <SelectedNodes>
+    <node>top.imzdx.storequeue.controller.UserController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

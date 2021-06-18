@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>top.imzdx.storequeue.dao</OriginalElement>
+  <nodes>
+    <node x="397.0" y="0.0">top.imzdx.storequeue.dao.OrderDao</node>
+    <node x="0.0" y="331.0">top.imzdx.storequeue.dao.GoodsDao</node>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.dao.UserDao</node>
+    <node x="0.0" y="593.0">top.imzdx.storequeue.dao.AdminDao</node>
+    <node x="342.0" y="331.0">top.imzdx.storequeue.dao.SeckillDao</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="148.5" y="158.5" />
+  <SelectedNodes>
+    <node>top.imzdx.storequeue.dao.AdminDao</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>方法</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

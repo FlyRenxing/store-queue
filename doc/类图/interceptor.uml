@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>top.imzdx.storequeue.interceptor</OriginalElement>
+  <nodes>
+    <node x="0.0" y="342.0">top.imzdx.storequeue.interceptor.AdminRequired</node>
+    <node x="207.0" y="342.0">top.imzdx.storequeue.interceptor.LoginRequired</node>
+    <node x="0.0" y="0.0">top.imzdx.storequeue.interceptor.LoginInterceptor</node>
+    <node x="0.0" y="171.0">top.imzdx.storequeue.interceptor.AdminInterceptor</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="组件" zoom="1.0" showDependencies="false" x="88.0" y="127.5" />
+  <SelectedNodes>
+    <node>top.imzdx.storequeue.interceptor.AdminRequired</node>
+    <node>top.imzdx.storequeue.interceptor.LoginRequired</node>
+    <node>top.imzdx.storequeue.interceptor.LoginInterceptor</node>
+    <node>top.imzdx.storequeue.interceptor.AdminInterceptor</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>内部类</Category>
+    <Category>字段</Category>
+    <Category>属性</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
