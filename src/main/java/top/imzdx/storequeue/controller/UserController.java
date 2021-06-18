@@ -256,7 +256,7 @@ public class UserController {
                 return new ResultTools().fail(201, "删除失败", null);
             }
         } catch (Exception e) {
-            return new ResultTools().fail(202, "参数格式有误", null);
+            return new ResultTools().fail(202, "无此用户", null);
         }
     }
 }
