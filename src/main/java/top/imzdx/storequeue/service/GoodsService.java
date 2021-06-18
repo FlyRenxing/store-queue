@@ -105,7 +105,7 @@ public class GoodsService {
     public long buyCreate(long gid, long uid) {
         //long[] meg = new long[]{gid, uid};
         Goods goods = getGoods(gid);
-        if (goods == null && goods.getState() != 1) {
+        if (goods == null || goods.getState() != 1) {
             return -1;
         }
         JSONArray meg = new JSONArray();
