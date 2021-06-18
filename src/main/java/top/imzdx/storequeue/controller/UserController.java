@@ -87,12 +87,12 @@ public class UserController {
 
     @PostMapping("editpassword")
     @LoginRequired
-    public Result editPassword(HttpServletRequest request, String oldPassword, String newPassword) {
-        if (oldPassword.equals(newPassword)) {
+    public Result editPassword(HttpServletRequest request, String old_pwd, String new_pwd) {
+        if (old_pwd.equals(new_pwd)) {
             return new ResultTools().fail(202, "密码与原密码相同", null);
         }
         long uid = ((User) request.getSession().getAttribute("user")).getUid();
-        int code = userService.changePassword(uid, oldPassword, newPassword);
+        int code = userService.changePassword(uid, old_pwd, new_pwd);
         if (code == 200) {
             return new ResultTools().success("修改密码成功", null);
         } else if (code == 201) {
