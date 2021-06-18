@@ -107,9 +107,19 @@ public class OrderService {
         return orderDao.getOrderBySidLimitLine(sid, line);
     }
 
-
+    /**
+     * 通过Redis获取UUID的状态
+     * 若获取到的为空则可能是未执行到设置状态的消息，所以返回0-正在排队
+     *
+     * @param uuid
+     * @return
+     */
     public int getUuidState(long uuid) {
-        return (int) redisUtil.get(String.valueOf(uuid));
+        Object state = redisUtil.get(String.valueOf(uuid));
+        if (state != null && state instanceof Integer) {
+            return (int) state;
+        }
+        return 0;
     }
 
     public long getOrderCountByAll() {
