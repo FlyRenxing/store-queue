@@ -29,7 +29,7 @@ public class SeckillService {
 
     public int newSeckill(int gid, String startDay, String startTime, String endDay, String endTime, String data) {
         Seckill seckillByGid = seckillDao.selectSeckillByGid(gid);
-        if (seckillByGid.getGid() == gid) {
+        if (seckillByGid!=null&&seckillByGid.getGid() == gid) {
             return -1;
         }
         Seckill seckill = new Seckill();

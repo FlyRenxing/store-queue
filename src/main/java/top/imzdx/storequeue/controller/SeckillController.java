@@ -16,6 +16,16 @@ public class SeckillController {
     @Autowired
     private SeckillService seckillService;
 
+    /**
+     * 新增秒杀活动
+     * @param gid
+     * @param startday
+     * @param starttime
+     * @param endday
+     * @param endtime
+     * @param data
+     * @return
+     */
     @AdminRequired
     @PostMapping("new")
     public Result newSecikill(int gid, String startday, String starttime, String endday, String endtime, String data) {
@@ -29,6 +39,11 @@ public class SeckillController {
         }
     }
 
+    /**
+     * 删除秒杀活动
+     * @param sid
+     * @return
+     */
     @AdminRequired
     @GetMapping("{sid}/delete")
     public Result deleteSeckill(@PathVariable long sid) {
@@ -39,12 +54,29 @@ public class SeckillController {
         }
     }
 
+    /**
+     * 查询所有秒杀活动
+     * @param sid
+     * @return
+     */
     @GetMapping("{sid}/seckillOrderList")
     public Result getSeckillOrderList(@PathVariable long sid) {
 
         return new ResultTools().success("成功", seckillService.getSeckillOrderList(sid));
     }
 
+    /**
+     * 修改秒杀活动
+     * @param sid
+     * @param gid
+     * @param startday
+     * @param starttime
+     * @param endday
+     * @param endtime
+     * @param data
+     * @param usecount
+     * @return
+     */
     @AdminRequired
     @PostMapping("edit")
     public Result editSeckill(String sid, String gid, String startday, String starttime, String endday, String endtime, String data, String usecount) {
