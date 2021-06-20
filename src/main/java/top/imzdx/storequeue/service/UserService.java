@@ -85,12 +85,14 @@ public class UserService {
         return 202;
     }
 
-    public int changePassword(long uid, String oldPassword, String newPassword) {
-        if (!userDao.getUsreByUid(uid).getPassword().equals(oldPassword)) {
+    public int changePassword(long uid, String old_pwd, String new_pwd) {
+        if (!userDao.getUsreByUid(uid).getPassword().equals(old_pwd)) {
             return 201;
         }
-        int n = userDao.changePasswordByUid(uid, newPassword);
+        int n = userDao.changePasswordByUid(uid, new_pwd);
         if (n == 1) {
+            User user = userDao.getUsreByUid(uid);
+            updateUser(user.getUid(),user.getUname(),user.getPassword(),user.getPhone(),user.getEmail(),user.getBirthday(),user.getType(),user.getLogo());
             return 200;
         } else {
             return 203;
@@ -125,7 +127,7 @@ public class UserService {
     }
 
     public int deleteUser(long uid) {
-        redisUtil.hdel("user", uid);
+        redisUtil.hdel("user", String.valueOf(uid));
         return userDao.deleteUser(uid);
     }
 }
