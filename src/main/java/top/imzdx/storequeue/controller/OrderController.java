@@ -52,7 +52,7 @@ public class OrderController {
     @GetMapping("{oid}/pay")
     public Result pay(@PathVariable long oid, HttpSession session) {
         long uid = ((User) session.getAttribute("user")).getUid();
-        int code = orderService.changeState(uid, oid, new Order().STATE_ISPAY);
+        int code = orderService.changeState(uid, oid, Order.STATE_ISPAY);
         if (code == 200) {
             return new ResultTools().success("支付成功", null);
         } else if (code == 201) {
