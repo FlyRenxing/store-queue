@@ -37,8 +37,8 @@
 - JDBC+Mybatis
 - Redis+Redisson
 - FastJSON
-- FlashMQ
-- Tomcat 
+- FlashMQ自研消息队列引擎
+- Tomcat
 - Nginx
 - Maven 
 

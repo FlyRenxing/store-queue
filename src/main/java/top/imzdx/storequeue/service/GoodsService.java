@@ -105,7 +105,6 @@ public class GoodsService {
     public long buyCreate(long gid, long uid) {
         //long[] meg = new long[]{gid, uid};
         Goods goods = getGoods(gid);
-        System.out.println(goods);
         if (goods == null || goods.getState() == 1) {
             return -1;
         }
