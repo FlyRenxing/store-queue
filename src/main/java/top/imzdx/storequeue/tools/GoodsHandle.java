@@ -3,6 +3,7 @@ package top.imzdx.storequeue.tools;
 import org.springframework.stereotype.Component;
 import top.imzdx.storequeue.pojo.goods.Goods;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +15,9 @@ import java.util.List;
 public class GoodsHandle {
     public List<Goods> removeGoodsByState(List<Goods> goods) {
         //删除状态为1（下架）的商品
-        for (int i = 0; i < goods.size(); i++) {
-            if (goods.get(i).getState() == 1) {
+        ArrayList<Goods> goodsCopy = new ArrayList<>(goods);
+        for (int i = goodsCopy.size() - 1; i >= 0; i--) {
+            if (goodsCopy.get(i).getState() == 1) {
                 goods.remove(i);
             }
         }
