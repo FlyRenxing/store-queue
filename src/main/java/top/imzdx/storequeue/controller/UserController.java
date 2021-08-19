@@ -201,7 +201,7 @@ public class UserController {
             if (userService.updateUser(Integer.parseInt(uid), uname, password, phone, email, birthday, Integer.parseInt(type), logo) == 1) {
                 return new ResultTools().success("修改成功", null);
             } else {
-                return new ResultTools().fail(203, "查无此人", null);
+                return new ResultTools().fail(203, "未进行任何修改或查无此人", null);
             }
         } catch (NumberFormatException e) {
             return new ResultTools().fail(202, "参数格式不正确", null);
