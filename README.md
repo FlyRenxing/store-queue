@@ -20,9 +20,9 @@
 
 ![](doc\res\订单管理图.png)
 
-## 购买功能模块图
+## 架构图
 
-![](doc\res\构架图.png)
+![](doc\商城系统架构图.png)
 
 ## 前端所用技术
 
@@ -40,5 +40,8 @@
 - FlashMQ自研消息队列引擎
 - Tomcat
 - Nginx
-- Maven 
+- Maven
 
+## 部署说明及相关文档请见
+
+[doc目录]('doc/')
