@@ -42,6 +42,8 @@
 - Nginx
 - Maven
 
-## 部署说明及相关文档请见
+## 部署说明及相关文档请见 [doc目录](/doc)
 
-[doc目录](/doc)
+## 前端项目请见 [store-queue-ui](https://github.com/FlyRenxing/store-queue-ui)
+
+## 因版权问题自研消息队列Flash-MQ仅提供编译后版本，如需使用该商城可将消息队列自行替换为其他开源版本。
