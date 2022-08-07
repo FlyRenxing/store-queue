@@ -1,11 +1,17 @@
 package top.imzdx.storequeue.pojo.goods;
 
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.io.Serializable;
-
+@Document(indexName = "goods")
 public class Goods implements Serializable {
-
+  @Id
   private long gid;
+  @Field(type = FieldType.Text,searchAnalyzer = "ik_smart", analyzer = "ik_max_word")
   private String gname;
   private double price;
   private long category;
@@ -13,7 +19,9 @@ public class Goods implements Serializable {
   private int stock;
   private int state;
   private String pic;
+  @Field(type = FieldType.Text, searchAnalyzer = "ik_smart",analyzer = "ik_max_word")
   private String details;
+  @Field(type = FieldType.Text,searchAnalyzer = "ik_smart", analyzer = "ik_max_word")
   private String remarks;
 
   @Override

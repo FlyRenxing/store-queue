@@ -3,6 +3,7 @@ package top.imzdx.storequeue.service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.OrderDao;
 import top.imzdx.storequeue.pojo.Order;
@@ -19,6 +20,7 @@ public class OrderService {
     @Autowired
     private OrderDao orderDao;
     @Autowired
+    @Lazy
     private SeckillService seckillService;
     @Autowired
     private RedisUtil redisUtil;

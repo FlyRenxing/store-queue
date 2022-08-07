@@ -3,6 +3,7 @@ package top.imzdx.storequeue.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.dao.SeckillDao;
 import top.imzdx.storequeue.pojo.Order;

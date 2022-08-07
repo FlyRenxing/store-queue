@@ -2,6 +2,7 @@ package top.imzdx.storequeue.service;
 
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import top.imzdx.storequeue.mq.Producer;
 import top.imzdx.storequeue.pojo.Order;
@@ -26,6 +27,7 @@ public class BuyService {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
+    @Lazy
     private GoodsService goodsService;
     @Autowired
     private SeckillService seckillService;
